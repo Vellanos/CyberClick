@@ -1,14 +1,11 @@
-# cyber-click
+# CyberClick
 
-This template should help get you started developing with Vue 3 in Vite.
+Projet de fin de formation DWWM de Simplon. Un petit jeu web de type clicker sur le thème cyberpunk.  
+Projet réalisé en Vue.js et node.js
 
 ## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur
 
 ## Project Setup
 
@@ -27,4 +24,4 @@ npm run dev
 ```sh
 npm run build
 ```
-# CyberClick
+
