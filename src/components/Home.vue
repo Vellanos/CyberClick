@@ -3,6 +3,10 @@
         <div class="logo">
             <img src="../assets/cyber-click-logo.png" alt="Logo" />
         </div>
+        <div class="accueil-presentation">
+            <p> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa autem nostrum dolores nulla laudantium eos reiciendis exercitationem, voluptas dolore? Quibusdam a ea modi hic eaque. Cumque ab reprehenderit harum delectus. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quisquam nobis optio unde earum dolorum quasi facere nemo repellendus corporis officia in iusto hic, at accusantium laudantium reprehenderit iure expedita soluta.</p>
+        </div>
+        
         <div>
             <button type="button" class="button-start" @click="$router.push('login')"> Commencer </button>
         </div>
@@ -22,6 +26,15 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
+}
+
+.accueil-presentation {
+    width: 60%;
+    color: white;
+    background-color: rgba(41, 41, 41, 0.5);
+    text-align: center;
+    padding: 2%;
+    border-radius: 30px;
 }
 
 .logo {
