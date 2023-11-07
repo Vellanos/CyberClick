@@ -7,7 +7,7 @@ const userasbonus = require ('./models/userasbonus')
 
 
 const sequelize = new Sequelize(
-    'cyber_click_db',
+    'cyber_click_bd',
     'postgres',
     'postgres',
     {
@@ -25,7 +25,7 @@ const Userasbonus = userasbonus(sequelize, DataTypes)
 
 const initDb = () => {
     return sequelize.sync()
-    .then(_ => console.log(Personne))
+    .then(_ => console.log(User))
 }
 
 module.exports = {
