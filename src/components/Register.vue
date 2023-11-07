@@ -3,18 +3,74 @@
         <img @click="$router.push('/')" class="logo-login" src="../assets/cyber-click-logo.png" alt="Logo">
         <div class="contener-form">
             <h2>Sign in</h2>
-            <form class="form-login" method="post">
-                <input class="champs-form" placeholder="Email" type="email" id="email" name="email" required>
-                <input class="champs-form" placeholder="Mot de passe" type="password" id="password" name="password" required>
+            <form class="form-login" @submit.prevent="handleSubmit">
+                <input class="champs-form" placeholder="Email" type="email" id="email" name="email"
+                    v-model="formRegister.email" required>
+                <input class="champs-form" placeholder="Mot de passe" type="password" id="password" name="password"
+                    v-model="formRegister.mdp" required>
+                <input class="champs-form" placeholder="Confirmer mot de passe" type="password" id="check_password"
+                    name="check_password" v-model="checkMdp.check_mdp" required>
+                <p v-if="passwordMismatchError" class="error-message">{{ passwordMismatchError }}</p>
                 <input type="submit" value="Sign in" class="button-login">
             </form>
+
             <p @click="$router.push('login')" class="show-register">Back to login </p>
         </div>
     </div>
 </template>
 
-<style>
+<script>
+import axios from "axios";
+export default {
+    //   props: {
 
+    //   },
+    data() {
+        return {
+            formRegister: {
+                role: 1,
+                email: '',
+                mdp: '',
+                nbr_currency: 0
+            },
+            checkMdp: {
+                check_mdp: ''
+            },
+            passwordMismatchError: ''
+        };
+    },
+
+    methods: {
+        handleSubmit() {
+            if (this.formRegister.mdp === this.checkMdp.check_mdp) {
+                this.Register();
+            } else {
+                this.passwordMismatchError = "Les mots de passe ne correspondent pas.";
+            }
+        },
+        async Register() {
+            try {
+                // Effectuez une requête POST avec Axios en envoyant le JSON dans le corps de la requête.
+                const response = await axios.post('http://localhost:8000/user', this.formRegister);
+
+                if (response.status === 200) {
+
+                    // Gérez la réponse ici si nécessaire.
+                    console.log('User created successfully:', response.data);
+                } else {
+                    // Gérez le cas d'erreur ici
+                    console.error('Erreur lors de la création du user:', response.status);
+                }
+
+            } catch (error) {
+                console.error('Error registering :', error);
+            }
+        }
+    }
+}
+</script>
+
+<style>
 .background-home {
     height: 100vh;
     background-image: url("../assets/Default_Cyberpunk_city_background_for_a_game_1.jpg");

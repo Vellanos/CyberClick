@@ -1,11 +1,21 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const sequelize = require('./sequelize')
+const cors = require('cors');
 
 const app = express();
 const port = 8000;
 
 app.use(bodyParser.json());
+
+app.use(
+    bodyParser.urlencoded({
+      extended: true,
+    })
+  );
+
+app.use(cors());
+
 sequelize.initDb()
 
 app.get("/", (request, response) => {
@@ -20,6 +30,7 @@ app.listen(port, () => {
 //Table User
 require('./routes/User/findAllUser')(app)
 require('./routes/User/findUserById')(app)
+require('./routes/User/createUser')(app)
 
 //Table Bonus
 

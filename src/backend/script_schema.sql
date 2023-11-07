@@ -1,12 +1,12 @@
-CREATE DATABASE cyber_click_bd;
+-- CREATE DATABASE cyber_click_bd;
 
 CREATE TABLE public.User (
     id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
     role int DEFAULT 1,
     email varchar(30),
-    mdp varchar(50),
+    mdp varchar(255),
     nbr_currency float DEFAULT 0,
-    data_rgbd timestamp
+    date_rgbd timestamp DEFAULT current_timestamp
 );
 
 CREATE TABLE public.Bonus (
@@ -43,10 +43,11 @@ CREATE TABLE UserAsStuff (
 INSERT INTO public.Bonus (nom, price, gain, img)
 VALUES
     ('Table SQL', 15, 0.2, 'sql_table.jpg'),
-    ('Data Base', 15, 7.50, 'data_base.jpg'),
-    ('Serveur', 20, 10.00, 'serveur.jpg'),
-    ('Data Center', 5, 2.50, 'data_center.jpg'),
-    ('Data City', 25, 12.50, 'data_city.jpg');
+    ('Data Base', 100, 2, 'data_base.jpg'),
+    ('Serveur', 1100, 16, 'serveur.jpg'),
+    ('Data Center', 12000, 94, 'data_center.jpg'),
+    ('Data City', 130000, 520, 'data_city.jpg'),
+    ('Puce', 200000, 0, 'puce.jpg');
 
 
 INSERT INTO public.Stuff (nom, price_puce, img)
