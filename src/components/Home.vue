@@ -5,7 +5,7 @@
         </div>
 
         <div class="wrapper-button" v-show="showElement === 1">
-            <button type="button" class="button-start" @click="$router.push('login')"> Jouer </button>
+            <button type="button" class="button-start" @click="isLogged"> Jouer </button>
             <button type="button" class="button-presentation" @click="incrementeElement"> Règles </button>
         </div>
 
@@ -26,7 +26,7 @@
         </div>
 
         <div class="wrapper-button" v-show="showElement === 2">
-            <button type="button" class="button-start" @click="$router.push('login')"> Jouer </button>
+            <button type="button" class="button-start" @click="isLogged"> Jouer </button>
             <button type="button" class="button-presentation" @click="incrementeElement"> En savoir plus </button>
         </div>
 
@@ -47,7 +47,7 @@
         </div>
 
         <div class="wrapper-button" v-show="showElement === 3">
-            <button type="button" class="button-start" @click="$router.push('login')"> Jouer </button>
+            <button type="button" class="button-start" @click="isLogged"> Jouer </button>
             <button type="button" class="button-presentation" @click="decrementElement"> Règles </button>
         </div>
 
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
     data() {
         return {
@@ -68,6 +69,24 @@ export default {
         },
         decrementElement() {
             this.showElement = this.showElement - 1
+        },
+        async isLogged() {
+            if (localStorage.getItem('token')) {
+                try {
+                // Effectuez une requête POST avec Axios en envoyant le JSON dans le corps de la requête.
+                const response = await axios.post('http://localhost:8000/authenticate', { Authorization: localStorage.getItem('token') });
+
+                if (response.status === 200) {
+                    this.$router.push('/game');
+                } else {
+                    this.$router.push('/login');
+                }
+            } catch (error) {
+                console.error('Error login :', error);
+            }
+            } else {
+                this.$router.push('/login');
+            }
         }
     }
 };

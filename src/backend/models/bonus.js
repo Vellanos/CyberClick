@@ -12,11 +12,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     price: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL,
       allowNull: true
     },
     gain: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.DECIMAL,
       allowNull: true
     },
     img: {

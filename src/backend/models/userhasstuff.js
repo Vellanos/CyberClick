@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('userasbonus', {
+  return sequelize.define('userhasstuff', {
     user_id: {
       type: DataTypes.UUID,
       allowNull: false,
@@ -10,28 +10,28 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id'
       }
     },
-    bonus_id: {
+    stuff_id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       references: {
-        model: 'bonus',
+        model: 'stuff',
         key: 'id'
       }
     }
   }, {
     sequelize,
-    tableName: 'userasbonus',
+    tableName: 'userhasstuff',
     schema: 'public',
     timestamps: false,
     indexes: [
       {
-        name: "userasbonus_pkey",
+        name: "userhasstuff_pkey",
         unique: true,
         fields: [
           { name: "user_id" },
-          { name: "bonus_id" },
+          { name: "stuff_id" },
         ]
       },
     ]

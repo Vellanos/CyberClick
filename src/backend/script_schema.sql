@@ -5,19 +5,19 @@ CREATE TABLE public.User (
     role int DEFAULT 1,
     email varchar(30),
     mdp varchar(255),
-    nbr_currency float DEFAULT 0,
+    nbr_currency DECIMAL DEFAULT 0,
     date_rgbd timestamp DEFAULT current_timestamp
 );
 
 CREATE TABLE public.Bonus (
     id serial PRIMARY KEY,
     nom varchar,
-    price integer,
-    gain float,
+    price DECIMAL,
+    gain DECIMAL,
     img varchar
 );
 
-CREATE TABLE UserAsBonus (
+CREATE TABLE UserHasBonus (
     user_id uuid,
     bonus_id serial,
     PRIMARY KEY (user_id, bonus_id),
@@ -28,11 +28,11 @@ CREATE TABLE UserAsBonus (
 CREATE TABLE public.Stuff (
     id serial PRIMARY KEY,
     nom varchar(20),
-    price_puce integer,
+    price_puce DECIMAL,
     img varchar
 );
 
-CREATE TABLE UserAsStuff (
+CREATE TABLE UserHasStuff (
     user_id uuid,
     stuff_id serial,
     PRIMARY KEY (user_id, stuff_id),

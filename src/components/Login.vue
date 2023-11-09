@@ -3,18 +3,53 @@
         <img @click="$router.push('/')" class="logo-login" src="../assets/cyber-click-logo.png" alt="Logo">
         <div class="contener-form">
             <h2>Login</h2>
-            <form class="form-login" method="post">
-                <input class="champs-form" placeholder="Email" type="email" id="email" name="email" required>
-                <input class="champs-form" placeholder="Mot de passe" type="password" id="password" name="password" required>
+            <form class="form-login" @submit.prevent="login">
+                <input v-model="formLogin.email" class="champs-form" placeholder="Email" type="email" required>
+                <input v-model="formLogin.mdp" class="champs-form" placeholder="Mot de passe" type="password" required>
                 <input type="submit" value="Login" class="button-login">
             </form>
-            <p @click="$router.push('register')" class="show-register"> Register here </p>
+            <p @click="$router.push('register')" class="show-register">Register here</p>
         </div>
     </div>
 </template>
+  
+<script>
+import axios from "axios";
+export default {
+    data() {
+        return {
+            formLogin: {
+                email: '',
+                mdp: ''
+            },
+        };
+    },
+    methods: {
+        async login() {
+            try {
+                // Effectuez une requête POST avec Axios en envoyant le JSON dans le corps de la requête.
+                const response = await axios.post('http://localhost:8000/login', this.formLogin);
+
+                if (response.status === 200) {
+                    localStorage.setItem('token', response.data.token);
+
+                    // Redirigez l'utilisateur vers la page d'accueil ou une autre page protégée
+                    this.$router.push('/game');
+                } else {
+                    // Gérez le cas d'erreur ici
+                    console.error('Erreur lors de la connexion:', response.status);
+                }
+
+            } catch (error) {
+                console.error('Error login :', error);
+            }
+        },
+    },
+};
+</script>
+  
 
 <style>
-
 .background-home {
     height: 100vh;
     background-image: url("../assets/Default_Cyberpunk_city_background_for_a_game_1.jpg");

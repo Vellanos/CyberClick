@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     price_puce: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL,
       allowNull: true
     },
     img: {

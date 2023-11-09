@@ -21,7 +21,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     nbr_currency: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.DECIMAL,
       allowNull: true,
       defaultValue: 0
     },
