@@ -46,6 +46,6 @@ require('./routes/User/createUser')(app)
 //Table Stuff
 require('./routes/Stuff/findAllStuff')(app)
 
-//Table UserAsStuff
+//Table UserHasStuff
 
-//Table UserAsBonus
+//Table UseHasBonus

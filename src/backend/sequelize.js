@@ -2,8 +2,8 @@ const { Sequelize, DataTypes } = require('sequelize');
 const userModel = require('./models/user');
 const stuffModel = require('./models/stuff')
 const bonusModel = require('./models/bonus')
-const userasstuffModel = require('./models/userasstuff')
-const userasbonus = require ('./models/userasbonus')
+const userhasstuffModel = require('./models/userhasstuff')
+const userhasbonus = require ('./models/userhasbonus')
 
 
 const sequelize = new Sequelize(
@@ -19,8 +19,8 @@ const sequelize = new Sequelize(
 const User = userModel(sequelize, DataTypes)
 const Stuff = stuffModel(sequelize, DataTypes)
 const Bonus = bonusModel(sequelize, DataTypes)
-const Userasstuff = userasstuffModel(sequelize, DataTypes)
-const Userasbonus = userasbonus(sequelize, DataTypes)
+const Userhasstuff = userhasstuffModel(sequelize, DataTypes)
+const Userhasbonus = userhasbonus(sequelize, DataTypes)
 
 
 const initDb = () => {
@@ -33,6 +33,6 @@ module.exports = {
     User,
     Stuff,
     Bonus,
-    Userasbonus,
-    Userasstuff
+    Userhasbonus,
+    Userhasstuff
 }
