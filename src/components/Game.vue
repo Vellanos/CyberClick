@@ -1,16 +1,19 @@
 <template>
     <div class="background-game">
-        <DataClic />
+        <!-- <DataClic /> -->
+        <Shop />
 
     </div>
 </template>
 
 <script>
 import DataClic from './DataClic.vue';
+import Shop from './Shop.vue';
 
 export default {
     components: {
-        DataClic
+        DataClic,
+        Shop
     },
 }
 

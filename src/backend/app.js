@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const sequelize = require('./sequelize')
 const cors = require('cors');
 const authenticateToken = require('./authenticateToken');
+require('dotenv').config();
 
 const app = express();
 const port = 8000;
@@ -42,6 +43,7 @@ require('./routes/User/findUserById')(app)
 require('./routes/User/createUser')(app)
 
 //Table Bonus
+require('./routes/Bonus/findAllBonus')(app)
 
 //Table Stuff
 require('./routes/Stuff/findAllStuff')(app)

@@ -1,7 +1,6 @@
 const { User } = require('./sequelize');
 require('dotenv').config();
-// const secretKey = process.env.SECRET_KEY;
-const secretKey = 'aa7687256a4e74329eae72dbc3036f5a4d14aa7fd670b86fac79321a2666bab4'
+const secretKey = process.env.SECRET_KEY;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -12,6 +11,7 @@ app.post('/login', async (request, response) => {
   try {
     // Rechercher l'utilisateur par e-mail dans la base de données
     const user = await User.findOne({ where: { email } });
+    
 
     if (!user) {
       return response.status(401).json({ message: 'Utilisateur non trouvé' });
