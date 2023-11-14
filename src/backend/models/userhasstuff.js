@@ -19,6 +19,10 @@ module.exports = function(sequelize, DataTypes) {
         model: 'stuff',
         key: 'id'
       }
+    },
+    statut: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true
     }
   }, {
     sequelize,

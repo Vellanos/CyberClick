@@ -20,6 +20,7 @@ CREATE TABLE public.Bonus (
 CREATE TABLE UserHasBonus (
     user_id uuid,
     bonus_id serial,
+    number integer,
     PRIMARY KEY (user_id, bonus_id),
     FOREIGN KEY (user_id) REFERENCES public.User(id),
     FOREIGN KEY (bonus_id) REFERENCES Bonus(id)
@@ -35,6 +36,7 @@ CREATE TABLE public.Stuff (
 CREATE TABLE UserHasStuff (
     user_id uuid,
     stuff_id serial,
+    statut boolean,
     PRIMARY KEY (user_id, stuff_id),
     FOREIGN KEY (user_id) REFERENCES public.User(id),
     FOREIGN KEY (stuff_id) REFERENCES Stuff(id)

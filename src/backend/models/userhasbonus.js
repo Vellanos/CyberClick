@@ -19,6 +19,10 @@ module.exports = function(sequelize, DataTypes) {
         model: 'bonus',
         key: 'id'
       }
+    },
+    number: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     }
   }, {
     sequelize,

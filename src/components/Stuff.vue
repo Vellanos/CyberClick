@@ -1,13 +1,13 @@
 <template>
-    <div class="bonus-container">
+    <div class="stuff-container">
         <h4>{{ name }}</h4>
         <div class="buy-wrapper">
             <img class="img-shop" :src="getImageUrl(img)" :alt="name">
 
             <div class="shop-data">
-                <p class="bonus-number"> 56 </p>
+                <p class="stuff-statut"></p>
                 <div class="price">
-                    <img src="../assets/data_button.png" />
+                    <img src="../assets/puce.jpg" />
                     <p>{{ price }}</p>
                 </div>
                 <button class="button-buy"> ACHETER </button>
@@ -18,17 +18,13 @@
 
 <script>
 export default {
-    name: 'Bonus',
+    name: 'Stuff',
     props: {
         name: {
             type: String,
             required: true,
         },
         price: {
-            type: Number,
-            required: true,
-        },
-        gain: {
             type: Number,
             required: true,
         },
@@ -54,7 +50,7 @@ export default {
     height: 4.5em;
 }
 
-.bonus-container {
+.stuff-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -106,13 +102,10 @@ export default {
     height: 1em;
 }
 
-.bonus-number {
+.stuff-statut {
     border: solid 1px black;
     border-radius: 50%;
-    padding: 5%;
-    color: white;
-    font-weight: bold;
-    font-size: 10px;
-    background-color: #4A1587;
+    padding: 15%;
+    background-color: red;
 }
 </style>

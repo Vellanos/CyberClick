@@ -36,6 +36,10 @@ export default {
             checkMdp: {
                 check_mdp: ''
             },
+            login: {
+                email: '',
+                mdp: ''
+            },
             passwordMismatchError: ''
         };
     },
@@ -57,6 +61,7 @@ export default {
 
                     // Gérez la réponse ici si nécessaire.
                     console.log('User created successfully:', response.data);
+                    this.Login();
                 } else {
                     // Gérez le cas d'erreur ici
                     console.error('Erreur lors de la création du user:', response.status);
@@ -64,6 +69,27 @@ export default {
 
             } catch (error) {
                 console.error('Error registering :', error);
+            }
+        },
+        async Login() {
+            this.login.email = this.formRegister.email
+            this.login.mdp = this.formRegister.mdp
+            try {
+                // Effectuez une requête POST avec Axios en envoyant le JSON dans le corps de la requête.
+                const response_login = await axios.post('http://localhost:8000/login', this.login);
+
+                if (response_login.status === 200) {
+                    localStorage.setItem('token', response_login.data.token);
+
+                    // Redirigez l'utilisateur vers la page d'accueil ou une autre page protégée
+                    this.$router.push('/game');
+                } else {
+                    // Gérez le cas d'erreur ici
+                    console.error('Erreur lors de la connexion:', response_login.status);
+                }
+
+            } catch (error) {
+                console.error('Error login :', error);
             }
         }
     }
