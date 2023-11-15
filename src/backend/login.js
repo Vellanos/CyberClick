@@ -25,7 +25,7 @@ app.post('/login', async (request, response) => {
     }
 
     // Si les informations de connexion sont valides, générez un token JWT
-    const token = jwt.sign({ email: user.email }, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign({ email: user.email }, secretKey, { expiresIn: '24h' });
 
     // Retournez le token en réponse
     response.json({ token });

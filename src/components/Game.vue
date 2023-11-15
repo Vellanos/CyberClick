@@ -1,7 +1,8 @@
 <template>
     <div class="background-game">
-        <!-- <DataClic :currency="currency" v-on:clicData="clicData" /> -->
-        <Shop />
+        <DataClic :currency="currency" v-on:changeElement="changeElement" v-on:clicData="clicData" v-show="showElement === 1"/>
+        <Shop :currency="currency" v-on:changeElement="changeElement" v-show="showElement === 2"/>
+        <Options v-on:changeElement="changeElement" v-show="showElement === 3"/>
 
     </div>
 </template>
@@ -10,15 +11,18 @@
 import DataClic from './DataClic.vue';
 import Shop from './Shop.vue';
 import axios from 'axios';
+import Options from './Options.vue';
 
 export default {
     components: {
         DataClic,
-        Shop
+        Shop,
+        Options
     },
     data() {
         return {
-            currency: null
+            currency: null,
+            showElement: 1
         };
     },
     mounted() {
@@ -26,10 +30,10 @@ export default {
         this.startIncrementLoop();
     },
     watch: {
-        // Exemple 2: Observer la propriété 'currency'
-        currency(newValue, oldValue) {
-            console.log(`La propriété 'currency' a changé. Nouvelle valeur : ${newValue}, Ancienne valeur : ${oldValue}`);
-        }
+        currency() {
+        },
+        showElement() {
+        },
     },
     methods: {
         async getDataUserCurrency() {
@@ -53,16 +57,17 @@ export default {
                 this.incrementScore();
             }, 1000);
         },
-
         incrementScore() {
             // Incrémente le score à chaque appel
             let gain_test = 10
             this.currency = parseInt(this.currency) + parseInt(gain_test)
         },
-
         clicData(gain) {
             // Incrémente la devise avec la valeur passée en paramètre
             this.currency = parseInt(this.currency) + parseInt(gain);
+        },
+        changeElement(element) {
+            this.showElement = element
         },
 
     },

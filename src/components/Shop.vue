@@ -1,20 +1,26 @@
 <template>
   <div class="background-dataclic">
-    <div class="navigation-game">
+    <div class="navigation-game" @click="changeElementGame">
       <p> Game </p>
     </div>
-
+    <div class="currency">
+      <p>{{ currency }}</p>
+      <img src="../assets/data_button.png" />
+    </div>
     <div class="wrapper-container">
       <div class="shop-wrapper">
-        <Bonus v-for="(index, i) in 5" :key="i" :name="bonus.name[i]" :price="bonus.price[i]" :img="bonus.img[i]" :number="bonus.number[i]" />
+        <Bonus v-for="(index, i) in 5" :key="i" :name="bonus.name[i]" :price="bonus.price[i]" :img="bonus.img[i]"
+          :number="bonus.number[i]" />
       </div>
       <div class="shop-wrapper">
-        <Bonus :name="bonus.name[this.rang_max]" :price="bonus.price[this.rang_max]" :img="bonus.img[this.rang_max]" :number="bonus.number[this.rang_max]" />
-        <Stuff v-for="(index, i) in 4" :key="i" :name="stuff.name[i]" :price="stuff.price[i]" :img="stuff.img[i]" :statut="stuff.statut[i]" />
+        <Bonus :name="bonus.name[this.rang_max]" :price="bonus.price[this.rang_max]" :img="bonus.img[this.rang_max]"
+          :number="bonus.number[this.rang_max]" />
+        <Stuff v-for="(index, i) in 4" :key="i" :name="stuff.name[i]" :price="stuff.price[i]" :img="stuff.img[i]"
+          :statut="stuff.statut[i]" />
       </div>
     </div>
 
-    <div class="navigation-options">
+    <div class="navigation-options" @click="changeElementOptions">
       <p> OPTIONS </p>
     </div>
   </div>
@@ -30,6 +36,12 @@ export default {
   components: {
     Bonus,
     Stuff
+  },
+  props: {
+    currency: {
+      type: Number,
+      required: true,
+    }
   },
   data() {
     return {
@@ -81,7 +93,7 @@ export default {
       } catch (error) {
         console.error('Error bonus call :', error);
       }
-      
+
     },
     async getDataStuff() {
       try {
@@ -123,7 +135,7 @@ export default {
           const data_user_bonus = response_user_bonus.data.data;
           let user_bonus_max = data_user_bonus.length
           for (let i = 0; i < user_bonus_max; i++) {
-            this.bonus.number.push(data_user_bonus[i].number) 
+            this.bonus.number.push(data_user_bonus[i].number)
           }
           console.log(this.bonus);
         } else {
@@ -139,7 +151,7 @@ export default {
           const data_user_stuff = response_user_stuff.data.data;
           let user_stuff_max = data_user_stuff.length
           for (let i = 0; i < user_stuff_max; i++) {
-            this.stuff.statut.push(data_user_stuff[i].statut) 
+            this.stuff.statut.push(data_user_stuff[i].statut)
           }
           console.log(this.stuff);
           console.log(this.bonus);
@@ -152,6 +164,12 @@ export default {
       }
 
     },
+    changeElementGame() {
+      this.$emit("changeElement", 1)
+    },
+    changeElementOptions() {
+      this.$emit("changeElement", 3)
+    }
 
   },
 };
@@ -171,6 +189,25 @@ export default {
   justify-content: center;
   align-items: center;
   gap: 20px;
+}
+
+.currency {
+  font-size: 1.2em;
+  color: white;
+  font-weight: bolder;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: solid 2px black;
+  background-color: #4A1587;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+
+.currency img {
+  width: 1em;
+  height: 1em;
+
 }
 
 .wrapper-container {

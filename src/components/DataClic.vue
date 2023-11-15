@@ -15,7 +15,7 @@
             <img src="../assets/data_button.png" />
         </div>
 
-        <div class="navigation-shop">
+        <div class="navigation-shop" @click="changeElement">
             <p> SHOP </p>
         </div>
     </div>
@@ -42,7 +42,9 @@ export default {
         clicData() {
             this.$emit("clicData", 100); // Remplacez 100 par la valeur que vous souhaitez transmettre
         },
-
+        changeElement() {
+            this.$emit("changeElement", 2) 
+        }
 
     },
 };

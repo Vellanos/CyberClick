@@ -83,6 +83,9 @@ export default {
                 }
             } catch (error) {
                 console.error('Error login :', error);
+                localStorage.setItem('token', null);
+                localStorage.setItem('email', '');
+                this.$router.push('/login');
             }
             } else {
                 this.$router.push('/login');
