@@ -32,6 +32,7 @@ export default {
 
                 if (response.status === 200) {
                     localStorage.setItem('token', response.data.token);
+                    localStorage.setItem('email', this.formLogin.email);
 
                     // Redirigez l'utilisateur vers la page d'accueil ou une autre page protégée
                     this.$router.push('/game');

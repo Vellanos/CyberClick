@@ -39,7 +39,7 @@ require('./login')(app)
 
 //Table User
 require('./routes/User/findAllUser')(app)
-require('./routes/User/findUserById')(app)
+require('./routes/User/findUserByEmail')(app)
 require('./routes/User/createUser')(app)
 
 //Table Bonus
@@ -49,5 +49,7 @@ require('./routes/Bonus/findAllBonus')(app)
 require('./routes/Stuff/findAllStuff')(app)
 
 //Table UserHasStuff
+require('./routes/UserHasStuff/findAllUserHasStuff')(app)
 
-//Table UseHasBonus
+//Table UserHasBonus
+require('./routes/UserHasBonus/findAllUserHasBonus')(app)

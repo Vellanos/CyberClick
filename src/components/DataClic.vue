@@ -11,7 +11,8 @@
         </div>
 
         <div class="currency-dynamic">
-            <p> 1 000 000</p>
+            <p>{{ currency }}</p>
+            <img src="../assets/data_button.png" />
         </div>
 
         <div class="navigation-shop">
@@ -23,6 +24,12 @@
 <script>
 export default {
     name: 'DataClic',
+    props: {
+        currency: {
+            type: Number,
+            required: true,
+        }
+    },
     methods: {
         appliquerAnimation() {
             this.$refs.dataButton.classList.add('animation-cliquee');
@@ -30,7 +37,13 @@ export default {
             setTimeout(() => {
                 this.$refs.dataButton.classList.remove('animation-cliquee');
             }, 100);
+            this.clicData()
         },
+        clicData() {
+            this.$emit("clicData", 100); // Remplacez 100 par la valeur que vous souhaitez transmettre
+        },
+
+
     },
 };
 </script>
@@ -92,6 +105,14 @@ export default {
     font-size: 1.2em;
     color: white;
     font-weight: bolder;
+    display: flex;
+    gap: 8px;
+}
+
+.currency-dynamic img {
+    width: 1.2em;
+    height: 1.2em;
+
 }
 
 .navigation-shop {

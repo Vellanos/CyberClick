@@ -5,7 +5,7 @@
             <img class="img-shop" :src="getImageUrl(img)" :alt="name">
 
             <div class="shop-data">
-                <p class="stuff-statut"></p>
+                <p :class="{ 'stuff-statut-red': !statut, 'stuff-statut-green': statut }"></p>
                 <div class="price">
                     <img src="../assets/puce.jpg" />
                     <p>{{ price }}</p>
@@ -30,6 +30,10 @@ export default {
         },
         img: {
             type: String,
+            required: true,
+        },
+        statut: {
+            type: Boolean,
             required: true,
         }
     },
@@ -102,10 +106,17 @@ export default {
     height: 1em;
 }
 
-.stuff-statut {
+.stuff-statut-red {
     border: solid 1px black;
     border-radius: 50%;
     padding: 15%;
     background-color: red;
+}
+
+.stuff-statut-green {
+    border: solid 1px black;
+    border-radius: 50%;
+    padding: 15%;
+    background-color: green;
 }
 </style>

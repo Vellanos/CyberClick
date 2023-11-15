@@ -5,10 +5,10 @@
             <img class="img-shop" :src="getImageUrl(img)" :alt="name">
 
             <div class="shop-data">
-                <p class="bonus-number"> 56 </p>
+                <p class="bonus-number"> {{ number }} </p>
                 <div class="price">
                     <img src="../assets/data_button.png" />
-                    <p>{{ price }}</p>
+                    <p>{{ formatNumber(calculPrice(price, number)) }}</p>
                 </div>
                 <button class="button-buy"> ACHETER </button>
             </div>
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import numeral from 'numeral';
 export default {
     name: 'Bonus',
     props: {
@@ -35,12 +36,25 @@ export default {
         img: {
             type: String,
             required: true,
+        },
+        number: {
+            type: Number,
+            required: true,
         }
     },
     methods: {
         getImageUrl(imageName) {
             // Assurez-vous que le chemin relatif est correct ici pour accéder à vos images
             return `src/assets/${imageName}`;
+        },
+        calculPrice(price, number) {
+            let final_price = price * 1.15 ** number
+            final_price = Math.round(final_price / 5) * 5;
+
+            return final_price;
+        },
+        formatNumber(number) {
+            return numeral(number).format('0,0');
         }
     }
 };
