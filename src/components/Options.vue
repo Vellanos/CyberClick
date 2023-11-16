@@ -5,14 +5,14 @@
         </div>
 
         <div class="options-container">
-            <div class="options-button">
+            <div class="options-button" @click="loggout">
                 <p>
-                    TEST
+                    Déconnexion
                 </p>
             </div>
             <div class="options-button">
                 <p>
-                    TEST
+                    Sauvegarde
                 </p>
             </div>
             <div class="options-button">
@@ -29,7 +29,12 @@ export default {
     name: 'Options',
     methods: {
         changeElement() {
-            this.$emit("changeElement", 2) 
+            this.$emit("changeElement", 2)
+        },
+        loggout() {
+            localStorage.setItem('token', null);
+            localStorage.setItem('email', '');
+            this.$router.push('/');
         }
 
     },
@@ -58,7 +63,7 @@ export default {
     align-items: center;
     width: 100%;
     height: 60%;
-    
+
 }
 
 .options-button {
@@ -89,4 +94,5 @@ export default {
     display: flex;
     justify-content: center;
     cursor: pointer;
-}</style>
+}
+</style>
