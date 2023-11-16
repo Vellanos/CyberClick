@@ -1,8 +1,9 @@
 <template>
     <div class="background-game">
-        <DataClic :currency="currency" v-on:changeElement="changeElement" v-on:clicData="clicData" v-show="showElement === 1"/>
-        <Shop :currency="currency" v-on:changeElement="changeElement" v-show="showElement === 2"/>
-        <Options v-on:changeElement="changeElement" v-show="showElement === 3"/>
+        <DataClic :currency="user.currency" v-on:changeElement="changeElement" v-on:clicData="clicData"
+            v-show="showElement === 1" />
+        <Shop :currency="user.currency" :user="user" :bonus="bonus" :stuff="stuff" v-on:changeElement="changeElement" v-show="showElement === 2" />
+        <Options v-on:changeElement="changeElement" v-show="showElement === 3" />
 
     </div>
 </template>
@@ -21,33 +22,120 @@ export default {
     },
     data() {
         return {
-            currency: null,
+            user: {
+                uuid: '',
+                currency: null
+            },
+            bonus: {
+                id: [],
+                name: [],
+                price: [],
+                gain: [],
+                img: [],
+                number: []
+            },
+            stuff: {
+                id: [],
+                name: [],
+                price: [],
+                img: [],
+                statut: []
+            },
             showElement: 1
         };
     },
     mounted() {
-        this.getDataUserCurrency();
+        this.getDataUser();
         this.startIncrementLoop();
     },
-    watch: {
-        currency() {
-        },
-        showElement() {
-        },
-    },
+    // watch: {
+    //     currency() {
+    //     },
+    //     showElement() {
+    //     },
+    // },
     methods: {
-        async getDataUserCurrency() {
+        async getDataUser() {
             let user_email = localStorage.getItem("email")
-            try {
+            try { //call user
                 const response_user = await axios.get('http://localhost:8000/user/' + user_email);
                 if (response_user.status === 200) {
                     const data_user = response_user.data.data;
-                    this.currency = data_user.nbr_currency
+                    this.user.currency = data_user.nbr_currency
+                    this.user.uuid = data_user.id
                 } else {
                     console.error('Erreur lors de la récupération des infos du user:', response_user.status);
                 }
             } catch (error) {
                 console.error('Error user call :', error);
+            }
+
+            try { // call bonus
+                const response_bonus = await axios.get('http://localhost:8000/bonus');
+                if (response_bonus.status === 200) {
+                    const data_bonus = response_bonus.data.data;
+                    let bonus_max = data_bonus.length
+                    for (let i = 0; i < bonus_max; i++) {
+                        this.bonus.id.push(i + 1)
+                        this.bonus.name.push(data_bonus[i].nom);
+                        this.bonus.price.push(data_bonus[i].price);
+                        this.bonus.gain.push(data_bonus[i].gain);
+                        this.bonus.img.push(data_bonus[i].img);
+                    }
+                } else {
+                    console.error('Erreur lors de la récupération des bonus:', response_bonus.status);
+                }
+            } catch (error) {
+                console.error('Error bonus call :', error);
+            }
+
+            try { //call stuff
+                const response_stuff = await axios.get('http://localhost:8000/stuff');
+                if (response_stuff.status === 200) {
+                    const data_stuff = response_stuff.data.data;
+                    let stuff_max = data_stuff.length
+                    for (let i = 0; i < stuff_max; i++) {
+                        this.stuff.id.push(i + 1)
+                        this.stuff.name.push(data_stuff[i].nom);
+                        this.stuff.price.push(data_stuff[i].price_puce);
+                        this.stuff.img.push(data_stuff[i].img);
+
+                    }
+                } else {
+                    console.error('Erreur lors de la récupération des stuff:', response_stuff.status);
+                }
+            } catch (error) {
+                console.error('Error stuff call :', error);
+            }
+
+            try {//call userhasbonus
+                const response_user_bonus = await axios.get('http://localhost:8000/userhasbonus/' + this.user.uuid);
+                if (response_user_bonus.status === 200) {
+                    const data_user_bonus = response_user_bonus.data.data;
+                    let user_bonus_max = data_user_bonus.length
+                    for (let i = 0; i < user_bonus_max; i++) {
+                        this.bonus.number.push(data_user_bonus[i].number)
+                    }
+                } else {
+                    console.error('Erreur lors de la récupération des bonus du user:', response_user_bonus.status);
+                }
+            } catch (error) {
+                console.error('Error userhasbonus call :', error);
+            }
+
+            try {//call userhasstuff
+                const response_user_stuff = await axios.get('http://localhost:8000/userhasstuff/' + this.user.uuid);
+                if (response_user_stuff.status === 200) {
+                    const data_user_stuff = response_user_stuff.data.data;
+                    let user_stuff_max = data_user_stuff.length
+                    for (let i = 0; i < user_stuff_max; i++) {
+                        this.stuff.statut.push(data_user_stuff[i].statut)
+                    }
+                } else {
+                    console.error('Erreur lors de la récupération des stuff du user:', response_user_stuff.status);
+                }
+            } catch (error) {
+                console.error('Error userhasbonus call :', error);
             }
 
         },
@@ -60,11 +148,11 @@ export default {
         incrementScore() {
             // Incrémente le score à chaque appel
             let gain_test = 10
-            this.currency = parseInt(this.currency) + parseInt(gain_test)
+            this.user.currency = parseInt(this.user.currency) + parseInt(gain_test)
         },
         clicData(gain) {
             // Incrémente la devise avec la valeur passée en paramètre
-            this.currency = parseInt(this.currency) + parseInt(gain);
+            this.user.currency = parseInt(this.user.currency) + parseInt(gain);
         },
         changeElement(element) {
             this.showElement = element

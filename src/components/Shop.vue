@@ -4,7 +4,7 @@
       <p> Game </p>
     </div>
     <div class="currency">
-      <p>{{ currency }}</p>
+      <p>{{ user.currency }}</p>
       <img src="../assets/data_button.png" />
     </div>
     <div class="wrapper-container">
@@ -13,8 +13,8 @@
           :number="bonus.number[i]" />
       </div>
       <div class="shop-wrapper">
-        <Bonus :name="bonus.name[this.rang_max]" :price="bonus.price[this.rang_max]" :img="bonus.img[this.rang_max]"
-          :number="bonus.number[this.rang_max]" />
+        <Bonus :name="bonus.name[range]" :price="bonus.price[range]" :img="bonus.img[range]"
+          :number="bonus.number[range]" />
         <Stuff v-for="(index, i) in 4" :key="i" :name="stuff.name[i]" :price="stuff.price[i]" :img="stuff.img[i]"
           :statut="stuff.statut[i]" />
       </div>
@@ -27,7 +27,6 @@
 </template>
   
 <script>
-import axios from 'axios';
 import Bonus from './Bonus.vue';
 import Stuff from './Stuff.vue'
 
@@ -38,132 +37,26 @@ export default {
     Stuff
   },
   props: {
-    currency: {
-      type: Number,
+    user: {
+      type: Object,
+      required: true,
+    },
+    bonus: {
+      type: Object,
+      required: true,
+    },
+    stuff: {
+      type: Object,
       required: true,
     }
   },
   data() {
-    return {
-      user: {
-        uuid: ''
-      },
-      bonus: {
-        id: [],
-        name: [],
-        price: [],
-        gain: [],
-        img: [],
-        number: []
-      },
-      stuff: {
-        id: [],
-        name: [],
-        price: [],
-        img: [],
-        statut: []
-      },
-      rang_max: null
-    };
-  },
-  mounted() {
-    this.getDataBonus();
-    this.getDataStuff();
-    this.getDataUser();
-  },
+        return {
+            range: 5
+        };
+    },
   methods: {
-    async getDataBonus() {
-      try {
-        const response = await axios.get('http://localhost:8000/bonus');
-        if (response.status === 200) {
-          const data = response.data.data;
-          let bonus_max = data.length
-          for (let i = 0; i < bonus_max; i++) {
-            this.bonus.id.push(i + 1)
-            this.bonus.name.push(data[i].nom);
-            this.bonus.price.push(data[i].price);
-            this.bonus.gain.push(data[i].gain);
-            this.bonus.img.push(data[i].img);
 
-          }
-          this.rang_max = this.bonus.name.length - 1
-        } else {
-          console.error('Erreur lors de la récupération des bonus:', response.status);
-        }
-      } catch (error) {
-        console.error('Error bonus call :', error);
-      }
-
-    },
-    async getDataStuff() {
-      try {
-        const response = await axios.get('http://localhost:8000/stuff');
-        if (response.status === 200) {
-          const data = response.data.data;
-          let stuff_max = data.length
-          for (let i = 0; i < stuff_max; i++) {
-            this.stuff.id.push(i + 1)
-            this.stuff.name.push(data[i].nom);
-            this.stuff.price.push(data[i].price_puce);
-            this.stuff.img.push(data[i].img);
-
-          }
-        } else {
-          console.error('Erreur lors de la récupération des stuff:', response.status);
-        }
-      } catch (error) {
-        console.error('Error stuff call :', error);
-      }
-    },
-    async getDataUser() {
-      let user_email = localStorage.getItem("email")
-      try {
-        const response_user = await axios.get('http://localhost:8000/user/' + user_email);
-        if (response_user.status === 200) {
-          const data_user = response_user.data.data;
-          this.user.uuid = data_user.id
-        } else {
-          console.error('Erreur lors de la récupération des infos du user:', response_user.status);
-        }
-      } catch (error) {
-        console.error('Error user call :', error);
-      }
-
-      try {
-        const response_user_bonus = await axios.get('http://localhost:8000/userhasbonus/' + this.user.uuid);
-        if (response_user_bonus.status === 200) {
-          const data_user_bonus = response_user_bonus.data.data;
-          let user_bonus_max = data_user_bonus.length
-          for (let i = 0; i < user_bonus_max; i++) {
-            this.bonus.number.push(data_user_bonus[i].number)
-          }
-          console.log(this.bonus);
-        } else {
-          console.error('Erreur lors de la récupération des bonus du user:', response_user_bonus.status);
-        }
-      } catch (error) {
-        console.error('Error userhasbonus call :', error);
-      }
-
-      try {
-        const response_user_stuff = await axios.get('http://localhost:8000/userhasstuff/' + this.user.uuid);
-        if (response_user_stuff.status === 200) {
-          const data_user_stuff = response_user_stuff.data.data;
-          let user_stuff_max = data_user_stuff.length
-          for (let i = 0; i < user_stuff_max; i++) {
-            this.stuff.statut.push(data_user_stuff[i].statut)
-          }
-          console.log(this.stuff);
-          console.log(this.bonus);
-          console.log(this.user);
-        } else {
-          console.error('Erreur lors de la récupération des bonus du user:', response_user_stuff.status);
-        }
-      } catch (error) {
-        console.error('Error userhasbonus call :', error);
-      }
-
-    },
     changeElementGame() {
       this.$emit("changeElement", 1)
     },
