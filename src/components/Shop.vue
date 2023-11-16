@@ -4,7 +4,7 @@
       <p> Game </p>
     </div>
     <div class="currency">
-      <p>{{ user.currency }}</p>
+      <p>{{ formatNumber(user.currency) }}</p>
       <img src="../assets/data_button.png" />
     </div>
     <div class="wrapper-container">
@@ -29,6 +29,7 @@
 <script>
 import Bonus from './Bonus.vue';
 import Stuff from './Stuff.vue'
+import numeral from 'numeral';
 
 export default {
   name: 'Shop',
@@ -62,7 +63,10 @@ export default {
     },
     changeElementOptions() {
       this.$emit("changeElement", 3)
-    }
+    },
+        formatNumber(number) {
+            return numeral(number).format('0,0');
+        }
 
   },
 };

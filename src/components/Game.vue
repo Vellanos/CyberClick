@@ -1,8 +1,9 @@
 <template>
     <div class="background-game">
-        <DataClic :currency="user.currency" v-on:changeElement="changeElement" v-on:clicData="clicData"
-            v-show="showElement === 1" />
-        <Shop :currency="user.currency" :user="user" :bonus="bonus" :stuff="stuff" v-on:changeElement="changeElement" v-show="showElement === 2" />
+        <DataClic :currency="user.currency" :gain_passif="gain_passif" v-on:changeElement="changeElement"
+            v-on:clicData="clicData" v-show="showElement === 1" />
+        <Shop :currency="user.currency" :user="user" :bonus="bonus" :stuff="stuff" v-on:changeElement="changeElement"
+            v-show="showElement === 2" />
         <Options v-on:changeElement="changeElement" v-show="showElement === 3" />
 
     </div>
@@ -41,19 +42,14 @@ export default {
                 img: [],
                 statut: []
             },
-            showElement: 1
+            showElement: 1,
+            gain_passif: 0
         };
     },
-    mounted() {
+    async mounted() {
         this.getDataUser();
         this.startIncrementLoop();
     },
-    // watch: {
-    //     currency() {
-    //     },
-    //     showElement() {
-    //     },
-    // },
     methods: {
         async getDataUser() {
             let user_email = localStorage.getItem("email")
@@ -74,14 +70,15 @@ export default {
                 const response_bonus = await axios.get('http://localhost:8000/bonus');
                 if (response_bonus.status === 200) {
                     const data_bonus = response_bonus.data.data;
-                    let bonus_max = data_bonus.length
-                    for (let i = 0; i < bonus_max; i++) {
-                        this.bonus.id.push(i + 1)
+                    this.bonus_max = data_bonus.length
+                    for (let i = 0; i < this.bonus_max; i++) {
+                        this.bonus.id.push(i + 1);
                         this.bonus.name.push(data_bonus[i].nom);
                         this.bonus.price.push(data_bonus[i].price);
                         this.bonus.gain.push(data_bonus[i].gain);
                         this.bonus.img.push(data_bonus[i].img);
                     }
+                    
                 } else {
                     console.error('Erreur lors de la récupération des bonus:', response_bonus.status);
                 }
@@ -138,26 +135,30 @@ export default {
                 console.error('Error userhasbonus call :', error);
             }
 
+            this.calculGain()
+            console.log(this.bonus);
         },
         startIncrementLoop() {
-            // Démarre une boucle toutes les 1000 millisecondes (1 seconde)
             this.incrementLoop = setInterval(() => {
                 this.incrementScore();
             }, 1000);
         },
         incrementScore() {
-            // Incrémente le score à chaque appel
-            let gain_test = 10
-            this.user.currency = parseInt(this.user.currency) + parseInt(gain_test)
+            this.user.currency = parseInt(this.user.currency) + parseInt(this.gain_passif)
         },
         clicData(gain) {
-            // Incrémente la devise avec la valeur passée en paramètre
             this.user.currency = parseInt(this.user.currency) + parseInt(gain);
+            console.log(gain);
         },
         changeElement(element) {
             this.showElement = element
         },
-
+        calculGain() {
+            let bonus_length = this.bonus.name.length
+            for (let i = 0; i < bonus_length; i++) {
+                this.gain_passif = parseInt(this.gain_passif) + (parseInt(this.bonus.gain[i]) * parseInt(this.bonus.number[i]))
+            }
+        }
     },
 }
 

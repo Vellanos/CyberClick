@@ -1,7 +1,7 @@
 <template>
     <div class="background-dataclic">
         <div class="gain">
-            <p> 150000 </p>
+            <p>{{ formatNumber(gain_passif) }}</p>
             <img src="../assets/data_button.png" />
             <p> / sec</p>
         </div>
@@ -11,7 +11,7 @@
         </div>
 
         <div class="currency-dynamic">
-            <p>{{ currency }}</p>
+            <p>{{ formatNumber(currency) }}</p>
             <img src="../assets/data_button.png" />
         </div>
 
@@ -22,10 +22,15 @@
 </template>
   
 <script>
+import numeral from 'numeral';
 export default {
     name: 'DataClic',
     props: {
         currency: {
+            type: Number,
+            required: true,
+        },
+        gain_passif: {
             type: Number,
             required: true,
         }
@@ -40,10 +45,13 @@ export default {
             this.clicData()
         },
         clicData() {
-            this.$emit("clicData", 100); // Remplacez 100 par la valeur que vous souhaitez transmettre
+            this.$emit("clicData", this.gain_passif/10); // Remplacez 100 par la valeur que vous souhaitez transmettre
         },
         changeElement() {
             this.$emit("changeElement", 2) 
+        },
+        formatNumber(number) {
+            return numeral(number).format('0,0');
         }
 
     },
