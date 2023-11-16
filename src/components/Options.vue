@@ -15,11 +15,6 @@
                     Sauvegarde
                 </p>
             </div>
-            <div class="options-button">
-                <p>
-                    TEST
-                </p>
-            </div>
         </div>
     </div>
 </template>
@@ -32,9 +27,13 @@ export default {
             this.$emit("changeElement", 2)
         },
         logout() {
+            this.save()
             localStorage.setItem('token', null);
             localStorage.setItem('email', '');
             this.$router.push('/');
+        },
+        save() {
+            console.log("FONCTION SAVE");
         }
 
     },
@@ -62,7 +61,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 60%;
+    height: 30%;
 
 }
 
@@ -75,9 +74,10 @@ export default {
     font-size: 1em;
     font-weight: bolder;
     width: 50%;
-    height: 20%;
+    height: 30%;
     border: solid 2px black;
     border-radius: 20px;
+    cursor: pointer;
 }
 
 .navigation-shop {

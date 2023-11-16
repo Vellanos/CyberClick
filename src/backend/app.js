@@ -41,6 +41,7 @@ require('./login')(app)
 require('./routes/User/findAllUser')(app)
 require('./routes/User/findUserByEmail')(app)
 require('./routes/User/createUser')(app)
+require('./routes/User/updateUser')(app)
 
 //Table Bonus
 require('./routes/Bonus/findAllBonus')(app)
