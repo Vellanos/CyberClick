@@ -78,7 +78,7 @@ export default {
                         this.bonus.gain.push(data_bonus[i].gain);
                         this.bonus.img.push(data_bonus[i].img);
                     }
-                    
+
                 } else {
                     console.error('Erreur lors de la récupération des bonus:', response_bonus.status);
                 }
@@ -137,6 +137,7 @@ export default {
 
             this.calculGain()
             console.log(this.bonus);
+            console.log(this.stuff);
         },
         startIncrementLoop() {
             this.incrementLoop = setInterval(() => {
@@ -147,16 +148,23 @@ export default {
             this.user.currency = parseInt(this.user.currency) + parseInt(this.gain_passif)
         },
         clicData(gain) {
+            if (gain < 1){
+                gain = 1
+            }
             this.user.currency = parseInt(this.user.currency) + parseInt(gain);
-            console.log(gain);
         },
         changeElement(element) {
             this.showElement = element
         },
         calculGain() {
-            let bonus_length = this.bonus.name.length
-            for (let i = 0; i < bonus_length; i++) {
-                this.gain_passif = parseInt(this.gain_passif) + (parseInt(this.bonus.gain[i]) * parseInt(this.bonus.number[i]))
+            let multiplicateur = 1
+            for (let i = 0; i < this.stuff.statut.length; i++) {
+                if (this.stuff.statut[i] === true) {
+                    multiplicateur = multiplicateur + 0.25
+                }
+            }
+            for (let i = 0; i < this.bonus.name.length; i++) {
+                this.gain_passif = (parseInt(this.gain_passif) + (parseInt(this.bonus.gain[i]) * parseInt(this.bonus.number[i])) * multiplicateur)
             }
         }
     },
