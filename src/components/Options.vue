@@ -5,7 +5,7 @@
         </div>
 
         <div class="options-container">
-            <div class="options-button" @click="loggout">
+            <div class="options-button" @click="logout">
                 <p>
                     Déconnexion
                 </p>
@@ -31,7 +31,7 @@ export default {
         changeElement() {
             this.$emit("changeElement", 2)
         },
-        loggout() {
+        logout() {
             localStorage.setItem('token', null);
             localStorage.setItem('email', '');
             this.$router.push('/');
