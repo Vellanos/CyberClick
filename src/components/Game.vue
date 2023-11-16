@@ -4,7 +4,7 @@
             v-on:clicData="clicData" v-show="showElement === 1" />
         <Shop :currency="user.currency" :user="user" :bonus="bonus" :stuff="stuff" v-on:changeElement="changeElement"
             v-show="showElement === 2" />
-        <Options v-on:changeElement="changeElement" v-show="showElement === 3" />
+        <Options :user="user" v-on:changeElement="changeElement" v-show="showElement === 3" />
 
     </div>
 </template>
@@ -136,8 +136,6 @@ export default {
             }
 
             this.calculGain()
-            console.log(this.bonus);
-            console.log(this.stuff);
         },
         startIncrementLoop() {
             this.incrementLoop = setInterval(() => {

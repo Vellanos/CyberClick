@@ -10,7 +10,7 @@
                     Déconnexion
                 </p>
             </div>
-            <div class="options-button">
+            <div class="options-button" @click="save">
                 <p>
                     Sauvegarde
                 </p>
@@ -20,8 +20,15 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     name: 'Options',
+    props: {
+        user: {
+            type: Object,
+            required: true,
+        }
+    },
     methods: {
         changeElement() {
             this.$emit("changeElement", 2)
@@ -32,9 +39,27 @@ export default {
             localStorage.setItem('email', '');
             this.$router.push('/');
         },
-        save() {
-            console.log("FONCTION SAVE");
+        async save() {
+            try {
+                // Update the request body to include the new value of nbr_currency
+                const userData = {
+                    ...this.user,
+                    nbr_currency: this.user.currency,
+                };
+
+                // Call save with the updated request body
+                const response_save = await axios.put('http://localhost:8000/user/' + this.user.uuid, userData);
+
+                if (response_save.status === 200) {
+                    console.log("SAVE OK POG");
+                } else {
+                    console.error('Erreur lors de la sauvegarde du user:', response_save.status);
+                }
+            } catch (error) {
+                console.error('Error user save call :', error);
+            }
         }
+
 
     },
 };
