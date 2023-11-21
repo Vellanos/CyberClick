@@ -21,6 +21,9 @@
 
 <script>
 import axios from 'axios';
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
+
 export default {
     name: 'Options',
     props: {
@@ -28,6 +31,9 @@ export default {
             type: Object,
             required: true,
         }
+    },
+    mounted() {
+        setInterval(this.autoSave, 60000);
     },
     methods: {
         changeElement() {
@@ -41,22 +47,39 @@ export default {
         },
         async save() {
             try {
-                // Update the request body to include the new value of nbr_currency
                 const userData = {
                     ...this.user,
                     nbr_currency: this.user.currency,
                 };
 
-                // Call save with the updated request body
                 const response_save = await axios.put('http://localhost:8000/user/' + this.user.uuid, userData);
 
                 if (response_save.status === 200) {
                     console.log("SAVE OK POG");
+                    toast.success("Save Sucess", {
+                        autoClose: 2000,
+                    });
                 } else {
                     console.error('Erreur lors de la sauvegarde du user:', response_save.status);
+                    toast.error("Save Error", {
+                        autoClose: 2000,
+                    });
                 }
             } catch (error) {
                 console.error('Error user save call :', error);
+            }
+        },
+        async autoSave() {
+            try {
+                const userData = {
+                    ...this.user,
+                    nbr_currency: this.user.currency,
+                };
+
+                await axios.put('http://localhost:8000/user/' + this.user.uuid, userData);
+
+            } catch (error) {
+                console.error('Error user auto-save call :', error);
             }
         }
 
