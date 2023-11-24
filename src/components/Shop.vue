@@ -9,14 +9,17 @@
     </div>
     <div class="wrapper-container">
       <div class="shop-wrapper">
-        <Bonus v-for="(index, i) in 5" :key="i" :name="bonus.name[i]" :price="bonus.price[i]" :img="bonus.img[i]"
-          :number="bonus.number[i]" />
+        <Bonus v-for="(index, i) in 5" :key="i" :name="bonus.name[i]" :price="bonus.price[i]" :gain="bonus.gain[i]"
+          :img="bonus.img[i]" :number="bonus.number[i]" :currency="user.currency" :user_id="user.uuid"
+          :bonus_id="bonus.id[i]" @bonusPurchased="handleBonusPurchase" />
       </div>
       <div class="shop-wrapper">
-        <Bonus :name="bonus.name[range]" :price="bonus.price[range]" :img="bonus.img[range]"
-          :number="bonus.number[range]" />
+        <Bonus :name="bonus.name[range]" :price="bonus.price[range]" :gain="bonus.gain[range]" :img="bonus.img[range]"
+          :number="bonus.number[range]" :currency="user.currency" :user_id="user.uuid" :bonus_id="bonus.id[range]"
+          @bonusPurchased="handleBonusPurchase" />
         <Stuff v-for="(index, i) in 4" :key="i" :name="stuff.name[i]" :price="stuff.price[i]" :img="stuff.img[i]"
-          :statut="stuff.statut[i]" />
+          :statut="stuff.statut[i]" :currency="user.currency" :user_id="user.uuid"
+          :stuff_id="stuff.id[i]" @bonusPurchased="handleBonusPurchase"/>
       </div>
     </div>
 
@@ -52,10 +55,10 @@ export default {
     }
   },
   data() {
-        return {
-            range: 5
-        };
-    },
+    return {
+      range: 5
+    };
+  },
   methods: {
 
     changeElementGame() {
@@ -64,9 +67,12 @@ export default {
     changeElementOptions() {
       this.$emit("changeElement", 3)
     },
-        formatNumber(number) {
-            return numeral(number).format('0,0');
-        }
+    formatNumber(number) {
+      return numeral(number).format('0,0');
+    },
+    handleBonusPurchase() {
+      this.$emit('bonusPurchased');
+    }
 
   },
 };

@@ -5,12 +5,14 @@
             <img class="img-shop" :src="getImageUrl(img)" :alt="name">
 
             <div class="shop-data">
-                <p class="bonus-number"> {{ number }} </p>
-                <div class="price">
+                <p class="bonus-number"> {{ nombre }} </p>
+                <div class="price" v-if="nombre < 50">
                     <img src="../assets/data_button.png" />
-                    <p>{{ formatNumber(calculPrice(price, number)) }}</p>
+                    <p>{{ formatNumber(calculPrice(price, nombre)) }}</p>
                 </div>
-                <button class="button-buy"> ACHETER </button>
+                <button class="button-buy" @click="buyBonus" :disabled="nombre === 50">
+                    {{ nombre === 50 ? 'COMPLET' : 'ACHETER' }}
+                </button>
             </div>
         </div>
     </div>
@@ -18,6 +20,7 @@
 
 <script>
 import numeral from 'numeral';
+import axios from 'axios';
 export default {
     name: 'Bonus',
     props: {
@@ -29,10 +32,6 @@ export default {
             type: Number,
             required: true,
         },
-        gain: {
-            type: Number,
-            required: true,
-        },
         img: {
             type: String,
             required: true,
@@ -40,21 +39,94 @@ export default {
         number: {
             type: Number,
             required: true,
+        },
+        currency: {
+            type: Number,
+            required: true,
+        },
+        user_id: {
+            type: String,
+            required: true
+        },
+        bonus_id: {
+            type: Number,
+            required: true
         }
+    },
+    data() {
+        return {
+            nombre: this.number,
+            monnaie: this.currency,
+            prix: this.price
+        };
     },
     methods: {
         getImageUrl(imageName) {
-            // Assurez-vous que le chemin relatif est correct ici pour accéder à vos images
             return `src/assets/${imageName}`;
         },
         calculPrice(price, number) {
-            let final_price = price * 1.15 ** number
+            let final_price = price * 1.40 ** number
             final_price = Math.round(final_price / 5) * 5;
 
-            return final_price;
+            return parseInt(final_price);
         },
         formatNumber(number) {
             return numeral(number).format('0,0');
+        },
+        updateNombre() {
+            this.nombre = this.number;
+            this.monnaie = this.currency
+            this.prix = this.calculPrice(this.price, this.nombre)
+        },
+        async buyBonus() {
+            console.log(parseInt(this.monnaie) >= parseInt(this.prix));
+            console.log("monnaie avant " + this.monnaie)
+            console.log("price avant " + this.prix);
+            console.log("nombre avant " + this.nombre);
+            if (parseInt(this.monnaie) >= parseInt(this.prix)) {
+
+
+                this.nombre = parseInt(this.nombre) + 1;
+                this.monnaie = parseInt(this.monnaie) - parseInt(this.prix)
+                this.prix = this.calculPrice(this.price, this.nombre)
+
+                console.log("monnaie après " + this.monnaie)
+                console.log("price après " + this.prix);
+                console.log("nombre après " + this.nombre);
+                console.log("----------------");
+                try {
+                    const userData_bonus = { number: this.nombre };
+                    const response_bonus = await axios.put(`http://localhost:8000/userhasbonus/${this.user_id}/${this.bonus_id}`, userData_bonus);
+
+                    if (response_bonus.status === 200) {
+                        try {
+                            const userData_user = { nbr_currency: this.monnaie };
+                            const response_user = await axios.put(`http://localhost:8000/user/${this.user_id}`, userData_user);
+
+                            if (response_user.status === 200) {
+                                this.$emit('bonusPurchased');
+                            }
+                        } catch (error) {
+                            console.error('Error update pr bonus:', error);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error update number bonus:', error);
+                }
+
+            }
+
+        }
+    },
+    watch: {
+        number() {
+            this.updateNombre();
+        },
+        currency() {
+            this.updateNombre();
+        },
+        price() {
+            this.updateNombre();
         }
     }
 };

@@ -51,6 +51,8 @@ require('./routes/Stuff/findAllStuff')(app)
 
 //Table UserHasStuff
 require('./routes/UserHasStuff/findAllUserHasStuff')(app)
+require('./routes/UserHasStuff/updateUserHasStuff')(app)
 
 //Table UserHasBonus
 require('./routes/UserHasBonus/findAllUserHasBonus')(app)
+require('./routes/UserHasBonus/updateUserHasBonus')(app)

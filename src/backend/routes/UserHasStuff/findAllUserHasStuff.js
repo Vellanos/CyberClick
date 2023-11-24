@@ -8,6 +8,9 @@ module.exports = (app) => {
       where: {
         user_id: userId,
       },
+      order: [
+        ['stuff_id', 'ASC'], // 'ASC' for ascending order, 'DESC' for descending order
+      ],
     })
       .then((userhasstuff) => {
         const message = 'La Liste des userhasstuff a bien été récupérée.';

@@ -44,7 +44,7 @@ CREATE TABLE UserHasStuff (
 
 INSERT INTO public.Bonus (nom, price, gain, img)
 VALUES
-    ('Table SQL', 15, 0.2, 'sql_table.jpg'),
+    ('Table SQL', 15, 1, 'sql_table.jpg'),
     ('Data Base', 100, 2, 'data_base.jpg'),
     ('Serveur', 1100, 16, 'serveur.jpg'),
     ('Data Center', 12000, 94, 'data_center.jpg'),

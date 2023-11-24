@@ -10,13 +10,14 @@
                     <img src="../assets/puce.jpg" />
                     <p>{{ price }}</p>
                 </div>
-                <button class="button-buy"> ACHETER </button>
+                <button class="button-buy" @click="buyBonus"> ACHETER </button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     name: 'Stuff',
     props: {
@@ -35,12 +36,49 @@ export default {
         statut: {
             type: Boolean,
             required: true,
+        },
+        currency: {
+            type: Number,
+            required: true,
+        },
+        user_id: {
+            type: String,
+            required: true
+        },
+        stuff_id: {
+            type: Number,
+            required: true
         }
+    },
+    data() {
+        return {
+            statut_data: this.statut
+        };
     },
     methods: {
         getImageUrl(imageName) {
-            // Assurez-vous que le chemin relatif est correct ici pour accéder à vos images
             return `src/assets/${imageName}`;
+        },
+        updateStatut() {
+            this.statut_data = this.statut;
+        },
+        async buyBonus() {
+            this.statut_data = true
+            try {
+                const userData = { statut: this.statut_data };
+                const response = await axios.put(`http://localhost:8000/userhasstuff/${this.user_id}/${this.stuff_id}`, userData);
+                console.log(response);
+                if (response.status === 200) {
+                    this.$emit('bonusPurchased');
+                }
+            } catch (error) {
+                console.error('Error update statut stuff:', error);
+            }
+        }
+    },
+    watch: {
+        statut() {
+            this.updateStatut();
         }
     }
 };
