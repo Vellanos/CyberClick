@@ -79,21 +79,12 @@ export default {
             this.prix = this.calculPrice(this.price, this.nombre)
         },
         async buyBonus() {
-            console.log(parseInt(this.monnaie) >= parseInt(this.prix));
-            console.log("monnaie avant " + this.monnaie)
-            console.log("price avant " + this.prix);
-            console.log("nombre avant " + this.nombre);
             if (parseInt(this.monnaie) >= parseInt(this.prix)) {
 
 
                 this.nombre = parseInt(this.nombre) + 1;
                 this.monnaie = parseInt(this.monnaie) - parseInt(this.prix)
                 this.prix = this.calculPrice(this.price, this.nombre)
-
-                console.log("monnaie après " + this.monnaie)
-                console.log("price après " + this.prix);
-                console.log("nombre après " + this.nombre);
-                console.log("----------------");
                 try {
                     const userData_bonus = { number: this.nombre };
                     const response_bonus = await axios.put(`http://localhost:8000/userhasbonus/${this.user_id}/${this.bonus_id}`, userData_bonus);

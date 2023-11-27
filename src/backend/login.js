@@ -9,7 +9,7 @@ app.post('/login', async (request, response) => {
   const { email, mdp } = request.body;
 
   try {
-    // Rechercher l'utilisateur par e-mail dans la base de données
+    
     const user = await User.findOne({ where: { email } });
     
 
@@ -17,17 +17,16 @@ app.post('/login', async (request, response) => {
       return response.status(401).json({ message: 'Utilisateur non trouvé' });
     }
 
-    // Comparer le mot de passe haché avec celui fourni par l'utilisateur
-    const isPasswordValid = await bcrypt.compare(mdp, user.mdp); //vérifier comapre mdp en clair
+
+    const isPasswordValid = await bcrypt.compare(mdp, user.mdp);
 
     if (!isPasswordValid) {
       return response.status(401).json({ message: 'Mot de passe incorrect' });
     }
 
-    // Si les informations de connexion sont valides, générez un token JWT
+
     const token = jwt.sign({ email: user.email }, secretKey, { expiresIn: '24h' });
 
-    // Retournez le token en réponse
     response.json({ token });
   } catch (error) {
     console.error(error);

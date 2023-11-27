@@ -6,7 +6,6 @@ module.exports = (app) => {
     const { email, mdp } = req.body;
 
     try {
-      // Vérifier si l'email existe déjà
       const existingUser = await User.findOne({
         where: {
           email: email,
@@ -14,23 +13,19 @@ module.exports = (app) => {
       });
 
       if (existingUser) {
-        // Si l'email existe déjà, renvoyer une erreur
         return res.status(400).json({ error: 'Cet email est déjà enregistré.' });
       }
 
       const hashedPassword = await bcrypt.hash(mdp, 10);
 
-      // Créer l'utilisateur
       const user = await User.create({
         email: email,
         mdp: hashedPassword,
       });
 
-      // Récupérer tous les bonus et stuff de la base de données
       const allBonuses = await Bonus.findAll();
       const allStuff = await Stuff.findAll();
 
-      // Créer une ligne dans Userhasbonus pour chaque bonus avec le nombre initialisé à 0
       await Promise.all(
         allBonuses.map(async (bonus) => {
           await Userhasbonus.create({
@@ -41,7 +36,6 @@ module.exports = (app) => {
         })
       );
 
-      // Créer une ligne dans Userhasstuff pour chaque stuff avec le statut initialisé à false
       await Promise.all(
         allStuff.map(async (stuff) => {
           await Userhasstuff.create({

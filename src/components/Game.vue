@@ -53,6 +53,7 @@ export default {
     methods: {
         async getDataUser() {
             let user_email = localStorage.getItem("email")
+            
             if (user_email) {
                 try { //call user
                     const response_user = await axios.get('http://localhost:8000/user/' + user_email);

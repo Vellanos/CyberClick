@@ -8,11 +8,14 @@
       <img src="../assets/data_button.png" />
     </div>
     <div class="wrapper-container">
+
       <div class="shop-wrapper">
         <Bonus v-for="(index, i) in 5" :key="i" :name="bonus.name[i]" :price="bonus.price[i]" :gain="bonus.gain[i]"
           :img="bonus.img[i]" :number="bonus.number[i]" :currency="user.currency" :user_id="user.uuid"
           :bonus_id="bonus.id[i]" @bonusPurchased="handleBonusPurchase" />
       </div>
+
+      
       <div class="shop-wrapper">
         <Bonus :name="bonus.name[range]" :price="bonus.price[range]" :gain="bonus.gain[range]" :img="bonus.img[range]"
           :number="bonus.number[range]" :currency="user.currency" :user_id="user.uuid" :bonus_id="bonus.id[range]"

@@ -1,3 +1,4 @@
+
 const { User } = require('../../sequelize')
 
 module.exports = (app) => {
@@ -10,3 +11,5 @@ module.exports = (app) => {
     })
 
 }
+
+
