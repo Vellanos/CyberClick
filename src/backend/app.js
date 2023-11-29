@@ -32,8 +32,8 @@ app.post('/authenticate', authenticateToken, (req, res) => {
   res.json({ message: 'Authenticated', user: req.user });
  });
 
-//Point de terminaison
 
+//Point de terminaison
 //Login
 require('./login')(app)
 
