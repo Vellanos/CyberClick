@@ -1,10 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const sequelize = require('./sequelize')
 const cors = require('cors');
 const authenticateToken = require('./authenticateToken');
+const AdminBro = require('admin-bro');
+const AdminBroExpress = require('admin-bro-expressjs');
+const { Sequelize } = require('sequelize');
+const { initDb, User, Stuff, Bonus, Userhasbonus, Userhasstuff } = require('./sequelize');
 require('dotenv').config();
-//
+
 const app = express();
 const port = 8000;
 
@@ -19,12 +22,16 @@ app.use(cors());
 
 sequelize.initDb()
 
-app.get("/", (request, response) => {
-    response.json({ info: "Bien connecté au serveur" });
+const adminBro = new AdminBro({
+  databases: [User, Stuff, Bonus, Userhasbonus, Userhasstuff],
+  rootPath: '/admin',
 });
 
-app.listen(port, () => {
-    console.log(`App running on port ${port}.`);
+const adminBroRouter = AdminBroExpress.buildRouter(adminBro);
+app.use(adminBro.options.rootPath, adminBroRouter);
+
+app.get("/", (request, response) => {
+    response.json({ info: "Bien connecté au serveur" });
 });
 
 app.post('/authenticate', authenticateToken, (req, res) => {
@@ -56,3 +63,7 @@ require('./routes/UserHasStuff/updateUserHasStuff')(app)
 //Table UserHasBonus
 require('./routes/UserHasBonus/findAllUserHasBonus')(app)
 require('./routes/UserHasBonus/updateUserHasBonus')(app)
+
+app.listen(port, () => {
+  console.log(`App running on port ${port}.`);
+});
