@@ -4,7 +4,7 @@ const sequelize = require('./sequelize')
 const cors = require('cors');
 const authenticateToken = require('./authenticateToken');
 require('dotenv').config();
-
+//
 const app = express();
 const port = 8000;
 
