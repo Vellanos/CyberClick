@@ -4,8 +4,9 @@ const cors = require('cors');
 const authenticateToken = require('./authenticateToken');
 const AdminBro = require('admin-bro');
 const AdminBroExpress = require('admin-bro-expressjs');
-const { Sequelize } = require('sequelize');
-const { initDb, User, Stuff, Bonus, Userhasbonus, Userhasstuff } = require('./sequelize');
+const AdminBroSequelize = require('@admin-bro/sequelize')
+const sequelize = require('./sequelize')
+const { User } = require('./sequelize');
 require('dotenv').config();
 
 const app = express();
@@ -22,13 +23,32 @@ app.use(cors());
 
 sequelize.initDb()
 
+AdminBro.registerAdapter(AdminBroSequelize);
+
+// Middleware personnalisé pour vérifier l'authentification
+const adminAuthMiddleware = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization;
+
+    if (token) {
+        req.user = await verifyToken(token);
+        return next();
+    } else {
+        return res.status(401).json({ message: 'Non authentifié' });
+    }
+} catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Erreur d\'authentification' });
+}
+};
+
 const adminBro = new AdminBro({
-  databases: [User, Stuff, Bonus, Userhasbonus, Userhasstuff],
+  databases: [User],
   rootPath: '/admin',
 });
 
 const adminBroRouter = AdminBroExpress.buildRouter(adminBro);
-app.use(adminBro.options.rootPath, adminBroRouter);
+app.use('/admin', adminAuthMiddleware, adminBroRouter);
 
 app.get("/", (request, response) => {
     response.json({ info: "Bien connecté au serveur" });
