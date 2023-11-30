@@ -4,7 +4,7 @@
             v-on:clicData="clicData" v-show="showElement === 1" />
         <Shop :currency="user.currency" :user="user" :bonus="bonus" :stuff="stuff" v-on:changeElement="changeElement"
             v-show="showElement === 2" @bonusPurchased="handleBonusPurchase" />
-        <Options :user="user" v-on:changeElement="changeElement" v-show="showElement === 3" />
+        <Options :user="user" :role="user.role" v-on:changeElement="changeElement" v-show="showElement === 3" />
     </div>
 </template>
 
@@ -24,7 +24,8 @@ export default {
         return {
             user: {
                 uuid: '',
-                currency: null
+                currency: null,
+                role: null
             },
             bonus: {
                 id: [],
@@ -61,6 +62,7 @@ export default {
                         const data_user = response_user.data.data;
                         this.user.currency = data_user.nbr_currency
                         this.user.uuid = data_user.id
+                        this.user.role = data_user.role
                     } else {
                         console.error('Erreur lors de la récupération des infos du user:', response_user.status);
                     }

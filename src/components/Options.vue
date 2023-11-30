@@ -15,6 +15,11 @@
                     Sauvegarde
                 </p>
             </div>
+            <div v-if="role == 2" class="options-button" @click="adminNav">
+                <p>
+                    Admin
+                </p>
+            </div>
         </div>
     </div>
 </template>
@@ -29,6 +34,10 @@ export default {
     props: {
         user: {
             type: Object,
+            required: true,
+        },
+        role: {
+            type: Number,
             required: true,
         }
     },
@@ -55,7 +64,6 @@ export default {
                 const response_save = await axios.put('http://localhost:8000/user/' + this.user.uuid, userData);
 
                 if (response_save.status === 200) {
-                    console.log("SAVE OK POG");
                     toast.success("Save Sucess", {
                         autoClose: 2000,
                     });
@@ -81,7 +89,21 @@ export default {
             } catch (error) {
                 console.error('Error user auto-save call :', error);
             }
-        }
+        },
+        async adminNav() {
+            try {
+                const response = await axios.post('http://localhost:8000/authenticate', { Authorization: localStorage.getItem('token') });
+
+                if (response.status === 200) {
+                    window.location.href = 'http://localhost:8000/admin';
+                } else {
+                    this.logout()
+                }
+
+            } catch (error) {
+                console.error('Error navigation to admin page :', error);
+            }
+        },
 
 
     },
