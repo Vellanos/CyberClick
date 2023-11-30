@@ -8,6 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@admin-bro/express": "^3.1.0",
+    "@admin-bro/sequelize": "^1.2.1",
     "@adminjs/express": "^6.1.0",
     "@adminjs/sequelize": "^4.0.0",
     "adminjs": "^7.4.1",
@@ -16,11 +18,14 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "express-formidable": "^1.2.0",
+    "express-session": "^1.17.3",
     "jsonwebtoken": "^9.0.2",
     "numeral": "^2.0.6",
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.34.0",
+    "tslib": "^2.6.2",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5",
     "vue3-toastify": "^0.1.14"
