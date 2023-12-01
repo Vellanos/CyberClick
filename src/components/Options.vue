@@ -92,13 +92,7 @@ export default {
         },
         async adminNav() {
             try {
-                const response = await axios.post('http://localhost:8000/authenticate', { Authorization: localStorage.getItem('token') });
-
-                if (response.status === 200) {
-                    window.location.href = 'http://localhost:8000/admin';
-                } else {
-                    this.logout()
-                }
+                // const response = await axios.post('http://localhost:8000/authAdmin', { Authorization: localStorage.getItem('token') });
 
             } catch (error) {
                 console.error('Error navigation to admin page :', error);

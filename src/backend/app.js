@@ -14,10 +14,10 @@ const port = 8000;
 
 app.use(bodyParser.json());
 app.use(
-    bodyParser.urlencoded({
-      extended: true,
-    })
-  );
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
 app.use(cors());
 
@@ -25,40 +25,22 @@ sequelize.initDb()
 
 AdminBro.registerAdapter(AdminBroSequelize);
 
-// Middleware personnalisé pour vérifier l'authentification
-const adminAuthMiddleware = async (req, res, next) => {
-  try {
-    const token = req.headers.authorization;
-
-    if (token) {
-        req.user = await verifyToken(token);
-        return next();
-    } else {
-        return res.status(401).json({ message: 'Non authentifié' });
-    }
-} catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Erreur d\'authentification' });
-}
-};
-
 const adminBro = new AdminBro({
   databases: [User],
   rootPath: '/admin',
 });
 
 const adminBroRouter = AdminBroExpress.buildRouter(adminBro);
-app.use('/admin', adminAuthMiddleware, adminBroRouter);
+app.use('/admin', adminBroRouter);
 
 app.get("/", (request, response) => {
-    response.json({ info: "Bien connecté au serveur" });
+  response.json({ info: "Bien connecté au serveur" });
 });
 
 app.post('/authenticate', authenticateToken, (req, res) => {
 
   res.json({ message: 'Authenticated', user: req.user });
- });
-
+});
 
 //Point de terminaison
 //Login
