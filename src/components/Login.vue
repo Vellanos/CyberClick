@@ -5,7 +5,11 @@
             <h2>Login</h2>
             <form class="form-login" @submit.prevent="login">
                 <input v-model="formLogin.email" class="champs-form" placeholder="Email" type="email" required>
+                <span v-if="error && error.includes('Adresse mail incorrecte')" class="error-message">{{ error }}</span>
+
                 <input v-model="formLogin.mdp" class="champs-form" placeholder="Mot de passe" type="password" required>
+                <span v-if="error && error.includes('Mot de passe incorrect')" class="error-message">{{ error }}</span>
+
                 <input type="submit" value="Login" class="button-login">
             </form>
             <p @click="$router.push('register')" class="show-register">Register here</p>
@@ -22,6 +26,7 @@ export default {
                 email: '',
                 mdp: ''
             },
+            error: ''
         };
     },
     methods: {
@@ -36,13 +41,12 @@ export default {
 
                     // Redirigez l'utilisateur vers la page d'accueil ou une autre page protégée
                     this.$router.push('/game');
-                } else {
-                    // Gérez le cas d'erreur ici
-                    console.error('Erreur lors de la connexion:', response.status);
                 }
 
             } catch (error) {
-                console.error('Error login :', error);
+                this.error = error.response.data.message
+                console.error('Error login : ' + this.error, error);
+                
             }
         },
     },
@@ -126,6 +130,10 @@ export default {
     border-radius: 20px;
     color: white;
     font-weight: bolder;
+}
+
+.error-message{
+    color: red;
 }
 
 .show-register {

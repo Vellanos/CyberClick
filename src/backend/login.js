@@ -14,7 +14,7 @@ app.post('/login', async (request, response) => {
     
 
     if (!user) {
-      return response.status(401).json({ message: 'Utilisateur non trouvé' });
+      return response.status(401).json({ message: 'Adresse mail incorrecte' });
     }
 
 
