@@ -7,12 +7,12 @@
         <div class="options-container">
             <div class="options-button" @click="logout">
                 <p>
-                    Déconnexion
+                    Logout
                 </p>
             </div>
             <div class="options-button" @click="save">
                 <p>
-                    Sauvegarde
+                    Save
                 </p>
             </div>
             <div v-if="role == 2" class="options-button" @click="adminNav">
@@ -68,7 +68,7 @@ export default {
                         autoClose: 2000,
                     });
                 } else {
-                    console.error('Erreur lors de la sauvegarde du user:', response_save.status);
+                    console.error('Error saving user:', response_save.status);
                     toast.error("Save Error", {
                         autoClose: 2000,
                     });
@@ -95,7 +95,7 @@ export default {
                 // const response = await axios.post('http://localhost:8000/authAdmin', { Authorization: localStorage.getItem('token') });
 
             } catch (error) {
-                console.error('Error navigation to admin page :', error);
+                console.error('Error navigation to admin page:', error);
             }
         },
 

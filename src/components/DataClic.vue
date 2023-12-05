@@ -45,7 +45,7 @@ export default {
             this.clicData()
         },
         clicData() {
-            this.$emit("clicData", this.gain_passif/10); // Remplacez 100 par la valeur que vous souhaitez transmettre
+            this.$emit("clicData", this.gain_passif/10);
         },
         changeElement() {
             this.$emit("changeElement", 2) 

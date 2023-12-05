@@ -6,11 +6,13 @@
 
             <div class="shop-data">
                 <p :class="{ 'stuff-statut-red': !statut, 'stuff-statut-green': statut }"></p>
-                <div class="price">
+                <div class="price" v-if="!statut">
                     <img src="../assets/puce.jpg" />
                     <p>{{ price }}</p>
                 </div>
-                <button class="button-buy" @click="buyBonus"> ACHETER </button>
+                <button class="button-buy" @click="buyBonus">
+                    {{ statut ? 'COMPLETE' : 'BUY' }}
+                </button>
             </div>
         </div>
     </div>

@@ -64,7 +64,7 @@ export default {
                         this.user.uuid = data_user.id
                         this.user.role = data_user.role
                     } else {
-                        console.error('Erreur lors de la récupération des infos du user:', response_user.status);
+                        console.error('Error retrieving user information:', response_user.status);
                     }
                 } catch (error) {
                     console.error('Error user call :', error);
@@ -84,7 +84,7 @@ export default {
                         }
 
                     } else {
-                        console.error('Erreur lors de la récupération des bonus:', response_bonus.status);
+                        console.error('Error collecting bonuses:', response_bonus.status);
                     }
                 } catch (error) {
                     console.error('Error bonus call :', error);
@@ -103,7 +103,7 @@ export default {
 
                         }
                     } else {
-                        console.error('Erreur lors de la récupération des stuff:', response_stuff.status);
+                        console.error('Error while retrieving stuff:', response_stuff.status);
                     }
                 } catch (error) {
                     console.error('Error stuff call :', error);
@@ -118,7 +118,7 @@ export default {
                             this.bonus.number.push(data_user_bonus[i].number)
                         }
                     } else {
-                        console.error('Erreur lors de la récupération des bonus du user:', response_user_bonus.status);
+                        console.error('Error while retrieving user bonuses:', response_user_bonus.status);
                     }
                 } catch (error) {
                     console.error('Error userhasbonus call :', error);
@@ -133,7 +133,7 @@ export default {
                             this.stuff.statut.push(data_user_stuff[i].statut)
                         }
                     } else {
-                        console.error('Erreur lors de la récupération des stuff du user:', response_user_stuff.status);
+                        console.error('Error retrieving user stuff:', response_user_stuff.status);
                     }
                 } catch (error) {
                     console.error('Error userhasbonus call :', error);

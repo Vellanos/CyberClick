@@ -13,7 +13,7 @@
                     <p>{{ formatNumber(calculPrice(price, nombre)) }}</p>
                 </div>
                 <button class="button-buy" @click="buyBonus" :disabled="nombre === 50">
-                    {{ nombre === 50 ? 'COMPLET' : 'ACHETER' }}
+                    {{ nombre === 50 ? 'COMPLETE' : 'BUY' }}
                 </button>
             </div>
         </div>
