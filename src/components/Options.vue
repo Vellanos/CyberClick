@@ -15,11 +15,11 @@
                     Save
                 </p>
             </div>
-            <div v-if="role == 2" class="options-button" @click="adminNav">
+            <!-- <div v-if="role == 2" class="options-button" @click="adminNav">
                 <p>
                     Admin
                 </p>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>

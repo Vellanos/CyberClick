@@ -54,95 +54,111 @@ export default {
     methods: {
         async getDataUser() {
             let user_email = localStorage.getItem("email")
-            
-            if (user_email) {
-                try { //call user
-                    const response_user = await axios.get('http://localhost:8000/user/' + user_email);
-                    if (response_user.status === 200) {
-                        const data_user = response_user.data.data;
-                        this.user.currency = data_user.nbr_currency
-                        this.user.uuid = data_user.id
-                        this.user.role = data_user.role
-                    } else {
-                        console.error('Error retrieving user information:', response_user.status);
-                    }
-                } catch (error) {
-                    console.error('Error user call :', error);
-                }
+            let token = localStorage.getItem("token")
 
-                try { // call bonus
-                    const response_bonus = await axios.get('http://localhost:8000/bonus');
-                    if (response_bonus.status === 200) {
-                        const data_bonus = response_bonus.data.data;
-                        this.bonus_max = data_bonus.length
-                        for (let i = 0; i < this.bonus_max; i++) {
-                            this.bonus.id.push(i + 1);
-                            this.bonus.name.push(data_bonus[i].nom);
-                            this.bonus.price.push(data_bonus[i].price);
-                            this.bonus.gain.push(data_bonus[i].gain);
-                            this.bonus.img.push(data_bonus[i].img);
+            if (token) {
+                try {
+                    const response = await axios.post('http://localhost:8000/authenticate', { Authorization: localStorage.getItem('token') });
+
+                    if (response.status === 200) {
+                        if (user_email) {
+                            try { //call user
+                                const response_user = await axios.get('http://localhost:8000/user/' + user_email);
+                                if (response_user.status === 200) {
+                                    const data_user = response_user.data.data;
+                                    this.user.currency = data_user.nbr_currency
+                                    this.user.uuid = data_user.id
+                                    this.user.role = data_user.role
+                                } else {
+                                    console.error('Error retrieving user information:', response_user.status);
+                                }
+                            } catch (error) {
+                                console.error('Error user call :', error);
+                            }
+
+                            try { // call bonus
+                                const response_bonus = await axios.get('http://localhost:8000/bonus');
+                                if (response_bonus.status === 200) {
+                                    const data_bonus = response_bonus.data.data;
+                                    this.bonus_max = data_bonus.length
+                                    for (let i = 0; i < this.bonus_max; i++) {
+                                        this.bonus.id.push(i + 1);
+                                        this.bonus.name.push(data_bonus[i].nom);
+                                        this.bonus.price.push(data_bonus[i].price);
+                                        this.bonus.gain.push(data_bonus[i].gain);
+                                        this.bonus.img.push(data_bonus[i].img);
+                                    }
+
+                                } else {
+                                    console.error('Error collecting bonuses:', response_bonus.status);
+                                }
+                            } catch (error) {
+                                console.error('Error bonus call :', error);
+                            }
+
+                            try { //call stuff
+                                const response_stuff = await axios.get('http://localhost:8000/stuff');
+                                if (response_stuff.status === 200) {
+                                    const data_stuff = response_stuff.data.data;
+                                    let stuff_max = data_stuff.length
+                                    for (let i = 0; i < stuff_max; i++) {
+                                        this.stuff.id.push(i + 1)
+                                        this.stuff.name.push(data_stuff[i].nom);
+                                        this.stuff.price.push(data_stuff[i].price_puce);
+                                        this.stuff.img.push(data_stuff[i].img);
+
+                                    }
+                                } else {
+                                    console.error('Error while retrieving stuff:', response_stuff.status);
+                                }
+                            } catch (error) {
+                                console.error('Error stuff call :', error);
+                            }
+
+                            try {//call userhasbonus
+                                const response_user_bonus = await axios.get('http://localhost:8000/userhasbonus/' + this.user.uuid);
+                                if (response_user_bonus.status === 200) {
+                                    const data_user_bonus = response_user_bonus.data.data;
+                                    let user_bonus_max = data_user_bonus.length
+                                    for (let i = 0; i < user_bonus_max; i++) {
+                                        this.bonus.number.push(data_user_bonus[i].number)
+                                    }
+                                } else {
+                                    console.error('Error while retrieving user bonuses:', response_user_bonus.status);
+                                }
+                            } catch (error) {
+                                console.error('Error userhasbonus call :', error);
+                            }
+
+                            try {//call userhasstuff
+                                const response_user_stuff = await axios.get('http://localhost:8000/userhasstuff/' + this.user.uuid);
+                                if (response_user_stuff.status === 200) {
+                                    const data_user_stuff = response_user_stuff.data.data;
+                                    let user_stuff_max = data_user_stuff.length
+                                    for (let i = 0; i < user_stuff_max; i++) {
+                                        this.stuff.statut.push(data_user_stuff[i].statut)
+                                    }
+                                } else {
+                                    console.error('Error retrieving user stuff:', response_user_stuff.status);
+                                }
+                            } catch (error) {
+                                console.error('Error userhasbonus call :', error);
+                            }
+
+                            this.calculGain()
+                        } else {
+                            this.$router.push('/login')
                         }
-
-                    } else {
-                        console.error('Error collecting bonuses:', response_bonus.status);
                     }
                 } catch (error) {
-                    console.error('Error bonus call :', error);
+                    console.error('Error : user not logged in', error);
+                    localStorage.setItem('token', null);
+                    localStorage.setItem('email', '');
+                    this.$router.push('/login');
                 }
-
-                try { //call stuff
-                    const response_stuff = await axios.get('http://localhost:8000/stuff');
-                    if (response_stuff.status === 200) {
-                        const data_stuff = response_stuff.data.data;
-                        let stuff_max = data_stuff.length
-                        for (let i = 0; i < stuff_max; i++) {
-                            this.stuff.id.push(i + 1)
-                            this.stuff.name.push(data_stuff[i].nom);
-                            this.stuff.price.push(data_stuff[i].price_puce);
-                            this.stuff.img.push(data_stuff[i].img);
-
-                        }
-                    } else {
-                        console.error('Error while retrieving stuff:', response_stuff.status);
-                    }
-                } catch (error) {
-                    console.error('Error stuff call :', error);
-                }
-
-                try {//call userhasbonus
-                    const response_user_bonus = await axios.get('http://localhost:8000/userhasbonus/' + this.user.uuid);
-                    if (response_user_bonus.status === 200) {
-                        const data_user_bonus = response_user_bonus.data.data;
-                        let user_bonus_max = data_user_bonus.length
-                        for (let i = 0; i < user_bonus_max; i++) {
-                            this.bonus.number.push(data_user_bonus[i].number)
-                        }
-                    } else {
-                        console.error('Error while retrieving user bonuses:', response_user_bonus.status);
-                    }
-                } catch (error) {
-                    console.error('Error userhasbonus call :', error);
-                }
-
-                try {//call userhasstuff
-                    const response_user_stuff = await axios.get('http://localhost:8000/userhasstuff/' + this.user.uuid);
-                    if (response_user_stuff.status === 200) {
-                        const data_user_stuff = response_user_stuff.data.data;
-                        let user_stuff_max = data_user_stuff.length
-                        for (let i = 0; i < user_stuff_max; i++) {
-                            this.stuff.statut.push(data_user_stuff[i].statut)
-                        }
-                    } else {
-                        console.error('Error retrieving user stuff:', response_user_stuff.status);
-                    }
-                } catch (error) {
-                    console.error('Error userhasbonus call :', error);
-                }
-
-                this.calculGain()
-            } else {
-                this.$router.push('/login')
             }
+
+
 
         },
         startIncrementLoop() {
