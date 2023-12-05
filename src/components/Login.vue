@@ -5,10 +5,10 @@
             <h2>Login</h2>
             <form class="form-login" @submit.prevent="login">
                 <input v-model="formLogin.email" class="champs-form" placeholder="Email" type="email" required>
-                <span v-if="error && error.includes('Adresse mail incorrecte')" class="error-message">{{ error }}</span>
+                <span v-if="error && error.includes('Invalid email')" class="error-message">{{ error }}</span>
 
-                <input v-model="formLogin.mdp" class="champs-form" placeholder="Mot de passe" type="password" required>
-                <span v-if="error && error.includes('Mot de passe incorrect')" class="error-message">{{ error }}</span>
+                <input v-model="formLogin.password" class="champs-form" placeholder="Password" type="password" required>
+                <span v-if="error && error.includes('Invalid password')" class="error-message">{{ error }}</span>
 
                 <input type="submit" value="Login" class="button-login">
             </form>
@@ -24,7 +24,7 @@ export default {
         return {
             formLogin: {
                 email: '',
-                mdp: ''
+                password: ''
             },
             error: ''
         };

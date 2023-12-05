@@ -2,16 +2,17 @@
     <div class="background-home">
         <img @click="$router.push('/')" class="logo-login" src="../assets/cyber-click-logo.png" alt="Logo-jeu">
         <div class="contener-form">
-            <h2>Sign in</h2>
+            <h2>Sign up</h2>
             <form class="form-login" @submit.prevent="handleSubmit">
                 <input class="champs-form" placeholder="Email" type="email" id="email" name="email"
                     v-model="formRegister.email" required>
-                <input class="champs-form" placeholder="Mot de passe" type="password" id="password" name="password"
-                    v-model="formRegister.mdp" required>
-                <input class="champs-form" placeholder="Confirmer mot de passe" type="password" id="check_password"
-                    name="check_password" v-model="checkMdp.check_mdp" required>
+                <span v-if="error && error.includes('Email already registered')" class="error-message">{{ error }}</span>
+                <input class="champs-form" placeholder="Password" type="password" id="password" name="password"
+                    v-model="formRegister.password" required>
+                <input class="champs-form" placeholder="Confirm password" type="password" id="check_password"
+                    name="check_password" v-model="checkMdp.check_password" required>
                 <p v-if="passwordMismatchError" class="error-message">{{ passwordMismatchError }}</p>
-                <input type="submit" value="Sign in" class="button-login">
+                <input type="submit" value="Sign up" class="button-login">
             </form>
 
             <p @click="$router.push('login')" class="show-register">Back to login </p>
@@ -22,69 +23,64 @@
 <script>
 import axios from "axios";
 export default {
-    //   props: {
-
-    //   },
     data() {
         return {
             formRegister: {
                 role: 1,
                 email: '',
-                mdp: '',
+                password: '',
                 nbr_currency: 0
             },
             checkMdp: {
-                check_mdp: ''
+                check_password: ''
             },
             login: {
                 email: '',
-                mdp: ''
+                password: ''
             },
-            passwordMismatchError: ''
+            passwordMismatchError: '',
+            error: ''
         };
     },
 
     methods: {
         handleSubmit() {
-            if (this.formRegister.mdp === this.checkMdp.check_mdp) {
+            if (this.formRegister.password === this.checkMdp.check_password) {
+                this.passwordMismatchError = ''
                 this.Register();
             } else {
-                this.passwordMismatchError = "Les mots de passe ne correspondent pas.";
+                this.error = ''
+                this.passwordMismatchError = "Passwords do not match";
             }
         },
         async Register() {
             try {
-                // Effectuez une requête POST avec Axios en envoyant le JSON dans le corps de la requête.
+                this.error = ''
                 const response = await axios.post('http://localhost:8000/user', this.formRegister);
-
                 if (response.status === 200) {
                     console.log('User created successfully:', response.data);
                     this.Login();
                 } else {
-                    // Gérez le cas d'erreur ici
-                    console.error('Erreur lors de la création du user:', response.status);
+                    console.error('Error creating user:', response.status);
                 }
 
             } catch (error) {
+                this.error = error.response.data.error
                 console.error('Error registering :', error);
             }
         },
         async Login() {
             this.login.email = this.formRegister.email
-            this.login.mdp = this.formRegister.mdp
+            this.login.password = this.formRegister.password
             try {
-                // Effectuez une requête POST avec Axios en envoyant le JSON dans le corps de la requête.
                 const response_login = await axios.post('http://localhost:8000/login', this.login);
 
                 if (response_login.status === 200) {
                     localStorage.setItem('token', response_login.data.token);
                     localStorage.setItem('email', this.login.email);
-
-                    // Redirigez l'utilisateur vers la page d'accueil ou une autre page protégée
                     this.$router.push('/game');
                 } else {
-                    // Gérez le cas d'erreur ici
-                    console.error('Erreur lors de la connexion:', response_login.status);
+                    console.error('Error while connecting:', response_login.status);
                 }
 
             } catch (error) {
@@ -171,6 +167,10 @@ export default {
     border-radius: 20px;
     color: white;
     font-weight: bolder;
+}
+
+.error-message{
+    color: red;
 }
 
 .show-register {

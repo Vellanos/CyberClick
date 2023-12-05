@@ -10,12 +10,12 @@ module.exports = (app) => {
       },
     })
       .then((user) => {
-        const message = 'Un user a bien été trouvé.';
+        const message = 'A user has been found.';
         res.json({ message, data: user });
       })
       .catch((error) => {
         console.error('Error retrieving user:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: 'Internal Server Error 500' });
       });
   });
 };

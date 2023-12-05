@@ -13,7 +13,7 @@ module.exports = (app) => {
       });
 
       if (existingUser) {
-        return res.status(400).json({ error: 'Cet email est déjà enregistré.' });
+        return res.status(400).json({ error: 'Email already registered' });
       }
 
       const hashedPassword = await bcrypt.hash(mdp, 10);
@@ -46,7 +46,7 @@ module.exports = (app) => {
         })
       );
 
-      const message = 'Le user a bien été créé avec des bonus et stuff associés.';
+      const message = 'The user has been created with associated bonuses and stuff.';
       res.json({ message, data: user });
     } catch (error) {
       console.error('Error creating user:', error);

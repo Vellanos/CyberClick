@@ -1,18 +1,12 @@
 <template>
     <div class="background-home">
         <div class="logo" v-show="showElement === 1">
-            <img src="../assets/cyber-click-logo.png" alt="Logo-jeu" />
+            <img src="../assets/cyber-click-logo.png" alt="Logo-game" />
         </div>
 
         <div class="wrapper-button" v-show="showElement === 1">
-            <button type="button" class="button-start" @click="isLogged"> Jouer </button>
-
-
-
-            <button type="button" class="button-presentation" @click="incrementeElement"> Règles </button>
-
-
-
+            <button type="button" class="button-start" @click="isLogged"> Play </button>
+            <button type="button" class="button-presentation" @click="incrementeElement"> Rules </button>
         </div>
 
         <div class="logo-rules" v-show="showElement === 2">
@@ -20,20 +14,19 @@
         </div>
 
         <div class="wrapper-rules" v-show="showElement === 2">
-            <h1>Règles du jeu :</h1>
+            <h1>Game Rules :</h1>
             <ul>
-                <li>Gagner de la Data en cliquant sur le Data-bouton</li>
-                <li>Acheter des bonus avec vos Data pour gagner de la Data passivement</li>
-                <li>Acheter de l'équipement pour augmenter votre multiplicateur de Data</li>
-                <li>Un bonus peut être acheté 50 fois</li>
-                <li>Un équipement peut être acheté qu'une fois</li>
-                <li>Les puces peuvent être achetées 100 fois</li>
+                <li>Earn Data by clicking on the Data button</li>
+                <li>Buy bonuses with your Data to earn Data passively</li>
+                <li>Purchase equipment to increase your Data multiplier</li>
+                <li>A bonus can be bought 50 times</li>
+                <li>Equipment can be bought only once</li>
             </ul>
         </div>
 
         <div class="wrapper-button" v-show="showElement === 2">
-            <button type="button" class="button-start" @click="isLogged"> Jouer </button>
-            <button type="button" class="button-presentation" @click="incrementeElement"> En savoir plus </button>
+            <button type="button" class="button-start" @click="isLogged"> Play </button>
+            <button type="button" class="button-presentation" @click="incrementeElement"> Learn more </button>
         </div>
 
         <div class="logo-rules" v-show="showElement === 3">
@@ -41,20 +34,23 @@
         </div>
 
         <div class="wrapper-presentation" v-show="showElement === 3">
-            <h2>Contexte du Projet</h2>
+            <h2>Project Context</h2>
             <p>
-                Ce projet a été réalisé dans le cadre de la formation DWWM (Dévellopement Web et Web Mobile) de Simplon Chambéry. Il s'agît du projet de fin de formation présenter au jury pour valider le passage du titre. L'idée principale est de proposé un jeu simple qui pourrait être un base d'un projet plus ambitieux à l'avenir. 
+                This project was carried out as part of the DWWM (Web and Mobile Web Development) training at Simplon
+                Chambéry. It is the final project presented to the jury to validate the achievement of the title. The main
+                idea
+                is to propose a simple game that could serve as the basis for a more ambitious project in the future.
             </p>
 
             <h3>Contact</h3>
             <p>
-                Mon profil <a class="linkedin" href="https://www.linkedin.com/in/david-bakalarz/"> Linkedin </a>
+                My profile <a class="linkedin" href="https://www.linkedin.com/in/david-bakalarz/">LinkedIn</a>
             </p>
         </div>
 
         <div class="wrapper-button" v-show="showElement === 3">
-            <button type="button" class="button-start" @click="isLogged"> Jouer </button>
-            <button type="button" class="button-presentation" @click="decrementElement"> Règles </button>
+            <button type="button" class="button-start" @click="isLogged"> Play </button>
+            <button type="button" class="button-presentation" @click="decrementElement"> Rules </button>
         </div>
 
 
@@ -79,19 +75,19 @@ export default {
         async isLogged() {
             if (localStorage.getItem('token')) {
                 try {
-                const response = await axios.post('http://localhost:8000/authenticate', { Authorization: localStorage.getItem('token') });
+                    const response = await axios.post('http://localhost:8000/authenticate', { Authorization: localStorage.getItem('token') });
 
-                if (response.status === 200) {
-                    this.$router.push('/game');
-                } else {
+                    if (response.status === 200) {
+                        this.$router.push('/game');
+                    } else {
+                        this.$router.push('/login');
+                    }
+                } catch (error) {
+                    console.error('Error login :', error);
+                    localStorage.setItem('token', null);
+                    localStorage.setItem('email', '');
                     this.$router.push('/login');
                 }
-            } catch (error) {
-                console.error('Error login :', error);
-                localStorage.setItem('token', null);
-                localStorage.setItem('email', '');
-                this.$router.push('/login');
-            }
             } else {
                 this.$router.push('/login');
             }
@@ -174,7 +170,7 @@ export default {
     justify-content: center;
 }
 
-.wrapper-rules h1 {    
+.wrapper-rules h1 {
     font-size: 2.5em;
     text-align: center;
 }
@@ -231,4 +227,5 @@ export default {
     border-radius: 20px;
     color: white;
     font-weight: bolder;
-}</style>
+}
+</style>

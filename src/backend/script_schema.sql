@@ -46,17 +46,17 @@ INSERT INTO public.Bonus (nom, price, gain, img)
 VALUES
     ('Table SQL', 15, 1, 'sql_table.jpg'),
     ('Data Base', 100, 2, 'data_base.jpg'),
-    ('Serveur', 1100, 16, 'serveur.jpg'),
+    ('Server', 1100, 16, 'serveur.jpg'),
     ('Data Center', 12000, 94, 'data_center.jpg'),
     ('Data City', 130000, 520, 'data_city.jpg'),
-    ('Puce', 200000, 0, 'puce.jpg');
+    ('Microship', 200000, 0, 'puce.jpg');
 
 
 INSERT INTO public.Stuff (nom, price_puce, img)
 VALUES
-    ('Bras Robotique', 20, 'gloves.jpg'),
-    ('Jambes Robotique', 20, 'legs.jpg'),
-    ('Cortex Frontal', 20, 'cortex.jpg'),
-    ('Système Armure', 20, 'armor.jpg');
+    ('Robotic Gloves', 10, 'gloves.jpg'),
+    ('Robotic Legs', 10, 'legs.jpg'),
+    ('Frontal Cortex', 10, 'cortex.jpg'),
+    ('Armor System', 10, 'armor.jpg');
 
 

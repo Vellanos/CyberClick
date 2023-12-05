@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 module.exports = (app) => {
 app.post('/login', async (request, response) => {
-  const { email, mdp } = request.body;
+  const { email, password } = request.body;
 
   try {
     
@@ -14,14 +14,14 @@ app.post('/login', async (request, response) => {
     
 
     if (!user) {
-      return response.status(401).json({ message: 'Adresse mail incorrecte' });
+      return response.status(401).json({ message: 'Invalid email' });
     }
 
 
-    const isPasswordValid = await bcrypt.compare(mdp, user.mdp);
+    const isPasswordValid = await bcrypt.compare(password, user.mdp);
 
     if (!isPasswordValid) {
-      return response.status(401).json({ message: 'Mot de passe incorrect' });
+      return response.status(401).json({ message: 'Invalid password' });
     }
 
 
@@ -30,7 +30,7 @@ app.post('/login', async (request, response) => {
     response.json({ token });
   } catch (error) {
     console.error(error);
-    response.status(500).json({ message: 'Une erreur s est produite' });
+    response.status(500).json({ message: 'Error 500' });
   }
 })};
 

@@ -6,7 +6,7 @@ module.exports = (app) => {
             order: [['id', 'ASC']]
         })
             .then(bonus => {
-                const message = 'La Liste des bonus a bien été récupérée.'
+                const message = 'The bonus list has been retrieved.'
                 res.json({ message, data: bonus })
             })
     })

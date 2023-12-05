@@ -34,7 +34,7 @@ const adminBroRouter = AdminBroExpress.buildRouter(adminBro);
 app.use('/admin', adminBroRouter);
 
 app.get("/", (request, response) => {
-  response.json({ info: "Bien connecté au serveur" });
+  response.json({ info: "Connect to server" });
 });
 
 app.post('/authenticate', authenticateToken, (req, res) => {

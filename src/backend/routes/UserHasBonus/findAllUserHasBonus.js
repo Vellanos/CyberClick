@@ -9,16 +9,16 @@ module.exports = (app) => {
         user_id: userId,
       },
       order: [
-        ['bonus_id', 'ASC'], // 'ASC' for ascending order, 'DESC' for descending order
+        ['bonus_id', 'ASC'],
       ],
     })
       .then((userhasbonus) => {
-        const message = 'La Liste des userhasbonus a bien été récupérée.';
+        const message = 'The list of userhasbonus has been retrieved.';
         res.json({ message, data: userhasbonus });
       })
       .catch((error) => {
         console.error('Error retrieving userhasbonus:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: 'Internal Server Error 500' });
       });
   });
 };

@@ -8,7 +8,7 @@ module.exports = (app) => {
     })
     .then(_ => {
         User.findByPk(userId).then(user => {
-        const message = `Le user ${user.id} a bien été modifié.`
+        const message = `The user with the ID ${user.id} has been successfully modified.`
         res.json({message, data: user })
       })
     })
