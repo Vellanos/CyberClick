@@ -13,11 +13,11 @@ function authenticateToken(request, response, next) {
    if (err) {
      return response.status(403).json({ message: 'Failed to authenticate token.' });
    }
-
-   // Si le token est valide, stockez les informations de l'utilisateur dans request.user
    request.user = user;
    next();
  });
 }
 
 module.exports = authenticateToken;
+
+

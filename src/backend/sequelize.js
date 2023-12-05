@@ -36,3 +36,5 @@ module.exports = {
     Userhasbonus,
     Userhasstuff
 }
+
+

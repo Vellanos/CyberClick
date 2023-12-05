@@ -1,6 +1,6 @@
 <template>
     <div class="background-home">
-        <img @click="$router.push('/')" class="logo-login" src="../assets/cyber-click-logo.png" alt="Logo">
+        <img @click="$router.push('/')" class="logo-login" src="../assets/cyber-click-logo.png" alt="Logo-jeu">
         <div class="contener-form">
             <h2>Sign in</h2>
             <form class="form-login" @submit.prevent="handleSubmit">
@@ -58,8 +58,6 @@ export default {
                 const response = await axios.post('http://localhost:8000/user', this.formRegister);
 
                 if (response.status === 200) {
-
-                    // Gérez la réponse ici si nécessaire.
                     console.log('User created successfully:', response.data);
                     this.Login();
                 } else {

@@ -58,3 +58,5 @@ VALUES
     ('Jambes Robotique', 20, 'legs.jpg'),
     ('Cortex Frontal', 20, 'cortex.jpg'),
     ('Système Armure', 20, 'armor.jpg');
+
+

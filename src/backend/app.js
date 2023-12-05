@@ -67,5 +67,5 @@ require('./routes/UserHasBonus/findAllUserHasBonus')(app)
 require('./routes/UserHasBonus/updateUserHasBonus')(app)
 
 app.listen(port, () => {
-  console.log(`App running on port ${port}.`);
+  (`App running on port ${port}.`);
 });

@@ -1,16 +1,22 @@
 <template>
     <div class="background-home">
         <div class="logo" v-show="showElement === 1">
-            <img src="../assets/cyber-click-logo.png" alt="Logo" />
+            <img src="../assets/cyber-click-logo.png" alt="Logo-jeu" />
         </div>
 
         <div class="wrapper-button" v-show="showElement === 1">
             <button type="button" class="button-start" @click="isLogged"> Jouer </button>
+
+
+
             <button type="button" class="button-presentation" @click="incrementeElement"> Règles </button>
+
+
+
         </div>
 
         <div class="logo-rules" v-show="showElement === 2">
-            <img src="../assets/regles.png" alt="Logo" />
+            <img src="../assets/regles.png" alt="Logo-rules" />
         </div>
 
         <div class="wrapper-rules" v-show="showElement === 2">
@@ -31,7 +37,7 @@
         </div>
 
         <div class="logo-rules" v-show="showElement === 3">
-            <img src="../assets/gestion-de-projet.png" alt="Logo" />
+            <img src="../assets/gestion-de-projet.png" alt="Logo-rules" />
         </div>
 
         <div class="wrapper-presentation" v-show="showElement === 3">
@@ -73,7 +79,6 @@ export default {
         async isLogged() {
             if (localStorage.getItem('token')) {
                 try {
-                // Effectuez une requête POST avec Axios en envoyant le JSON dans le corps de la requête.
                 const response = await axios.post('http://localhost:8000/authenticate', { Authorization: localStorage.getItem('token') });
 
                 if (response.status === 200) {

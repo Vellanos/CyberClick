@@ -1,6 +1,6 @@
 <template>
     <div class="background-home">
-        <img @click="$router.push('/')" class="logo-login" src="../assets/cyber-click-logo.png" alt="Logo">
+        <img @click="$router.push('/')" class="logo-login" src="../assets/cyber-click-logo.png" alt="Logo-jeu">
         <div class="contener-form">
             <h2>Login</h2>
             <form class="form-login" @submit.prevent="login">
@@ -32,14 +32,11 @@ export default {
     methods: {
         async login() {
             try {
-                // Effectuez une requête POST avec Axios en envoyant le JSON dans le corps de la requête.
                 const response = await axios.post('http://localhost:8000/login', this.formLogin);
 
                 if (response.status === 200) {
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem('email', this.formLogin.email);
-
-                    // Redirigez l'utilisateur vers la page d'accueil ou une autre page protégée
                     this.$router.push('/game');
                 }
 

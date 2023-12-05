@@ -6,7 +6,9 @@
 
             <div class="shop-data">
                 <p class="bonus-number"> {{ nombre }} </p>
+
                 <div class="price" v-if="nombre < 50">
+                    
                     <img src="../assets/data_button.png" />
                     <p>{{ formatNumber(calculPrice(price, nombre)) }}</p>
                 </div>
@@ -98,7 +100,7 @@ export default {
                                 this.$emit('bonusPurchased');
                             }
                         } catch (error) {
-                            console.error('Error update pr bonus:', error);
+                            console.error('Error update bonus:', error);
                         }
                     }
                 } catch (error) {

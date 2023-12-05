@@ -67,7 +67,6 @@ export default {
             try {
                 const userData = { statut: this.statut_data };
                 const response = await axios.put(`http://localhost:8000/userhasstuff/${this.user_id}/${this.stuff_id}`, userData);
-                console.log(response);
                 if (response.status === 200) {
                     this.$emit('bonusPurchased');
                 }

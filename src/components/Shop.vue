@@ -12,7 +12,7 @@
       <div class="shop-wrapper">
         <Bonus v-for="(index, i) in 5" :key="i" :name="bonus.name[i]" :price="bonus.price[i]" :gain="bonus.gain[i]"
           :img="bonus.img[i]" :number="bonus.number[i]" :currency="user.currency" :user_id="user.uuid"
-          :bonus_id="bonus.id[i]" @bonusPurchased="handleBonusPurchase" />
+          :bonus_id="bonus.id[i]" @bonusPurchased="handleBonusPurchase" /> 
       </div>
 
       
