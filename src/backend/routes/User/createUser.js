@@ -3,9 +3,11 @@ const bcrypt = require('bcrypt');
 
 module.exports = (app) => {
   app.post('/user', async (req, res) => {
-    const { email, mdp } = req.body;
-
     try {
+      const { email, password } = req.body;
+      if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+        return res.status(400).json({ error: 'Invalid Email Format' });
+      }
       const existingUser = await User.findOne({
         where: {
           email: email,
@@ -16,7 +18,7 @@ module.exports = (app) => {
         return res.status(400).json({ error: 'Email already registered' });
       }
 
-      const hashedPassword = await bcrypt.hash(mdp, 10);
+      const hashedPassword = await bcrypt.hash(password, 10);
 
       const user = await User.create({
         email: email,
@@ -54,3 +56,4 @@ module.exports = (app) => {
     }
   });
 };
+

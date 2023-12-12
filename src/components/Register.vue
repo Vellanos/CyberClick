@@ -7,6 +7,7 @@
                 <input class="champs-form" placeholder="Email" type="email" id="email" name="email"
                     v-model="formRegister.email" required>
                 <span v-if="error && error.includes('Email already registered')" class="error-message">{{ error }}</span>
+                <span v-if="!validEmail" class="error-message">Invalid email format</span>
                 <input class="champs-form" placeholder="Password" type="password" id="password" name="password"
                     v-model="formRegister.password" required>
                 <input class="champs-form" placeholder="Confirm password" type="password" id="check_password"
@@ -26,7 +27,6 @@ export default {
     data() {
         return {
             formRegister: {
-                role: 1,
                 email: '',
                 password: '',
                 nbr_currency: 0
@@ -39,18 +39,24 @@ export default {
                 password: ''
             },
             passwordMismatchError: '',
-            error: ''
+            error: '',
+            validEmail: true,
         };
     },
 
     methods: {
         handleSubmit() {
-            if (this.formRegister.password === this.checkMdp.check_password) {
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            this.validEmail = emailRegex.test(this.formRegister.email);
+            if (this.formRegister.password === this.checkMdp.check_password && this.validEmail === true) {
                 this.passwordMismatchError = ''
                 this.Register();
+            } else if (!this.validEmail){
+                this.error = "Invalid email format"
+                this.passwordMismatchError = '';
             } else {
-                this.error = ''
-                this.passwordMismatchError = "Passwords do not match";
+                this.error = ""
+                this.passwordMismatchError = "passwords do not match";
             }
         },
         async Register() {
@@ -169,7 +175,7 @@ export default {
     font-weight: bolder;
 }
 
-.error-message{
+.error-message {
     color: red;
 }
 

@@ -2,17 +2,17 @@
     <div class="background-dataclic">
         <div class="gain">
             <p>{{ formatNumber(gain_passif) }}</p>
-            <img src="../assets/data_button.png" />
+            <img src="../assets/data_button.png" alt="data currency"/>
             <p> / sec</p>
         </div>
 
         <div class="data-button" @click="appliquerAnimation" ref="dataButton">
-            <img class="data-button-img" src="../assets/data_button.png" />
+            <img class="data-button-img" src="../assets/data_button.png" alt="data currency button"/>
         </div>
 
         <div class="currency-dynamic">
             <p>{{ formatNumber(currency) }}</p>
-            <img src="../assets/data_button.png" />
+            <img src="../assets/data_button.png" alt="data currency"/>
         </div>
 
         <div class="navigation-shop" @click="changeElement">
