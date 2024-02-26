@@ -62,7 +62,7 @@ require('./routes/Stuff/findAllStuff')(app)
 require('./routes/UserHasStuff/findAllUserHasStuff')(app)
 require('./routes/UserHasStuff/updateUserHasStuff')(app)
 
-//Table UserHasBonus
+//Table UserHasBonus 
 require('./routes/UserHasBonus/findAllUserHasBonus')(app)
 require('./routes/UserHasBonus/updateUserHasBonus')(app)
 
